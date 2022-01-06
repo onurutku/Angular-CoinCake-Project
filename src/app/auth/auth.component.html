@@ -1,0 +1,76 @@
+<div class="container d-flex justify-content-center align-items-center">
+  <div class="row w-50">
+    <div class="col-xs-12">
+      <div class="section d-flex justify-content-center mb-3">
+        <a><img class="rounded" src="./../../assets/img/logo.jpg" alt="" /></a>
+      </div>
+      <div class="section w-100 d-flex justify-content-center">
+        <form [formGroup]="authForm" (ngSubmit)="onSubmit()" class="w-75">
+          <div class="row mb-2 d-flex align-items-center">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <input
+                  class="form-control"
+                  type="email"
+                  id="email"
+                  placeholder="e-mail"
+                  [formControlName]="'email'"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row mb-2 d-flex align-items-center">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <input
+                  class="form-control"
+                  type="password"
+                  id="password"
+                  placeholder="password"
+                  [formControlName]="'password'"
+                />
+              </div>
+            </div>
+          </div>
+          <div *ngIf="!isLoginMode" class="row mb-2">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <input
+                  class="form-control"
+                  type="password"
+                  id="repassword"
+                  placeholder="repeat password"
+                  [formControlName]="'repassword'"
+                />
+              </div>
+            </div>
+          </div>
+          <br />
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="form-group d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary btn-sm">
+                  {{ isLoginMode ? "Login" : "Sign Up" }}
+                </button>
+                &nbsp;
+                <button
+                  *ngIf="isLoginMode"
+                  (click)="changeMode()"
+                  type="button"
+                  class="btn btn-primary btn-sm"
+                >
+                  Sign Up
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <footer>
+        <div class="section d-flex justify-content-center mt-4">
+          <span><fa-icon [icon]="faCopyright"></fa-icon> 2022-2023</span>
+        </div>
+      </footer>
+    </div>
+  </div>
+</div>

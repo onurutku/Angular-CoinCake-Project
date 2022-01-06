@@ -1,0 +1,12 @@
+img {
+  max-width: 175px;
+}
+.container {
+  height: 100vh;
+}
+span {
+  font-size: x-small;
+}
+a {
+  cursor: pointer;
+}
