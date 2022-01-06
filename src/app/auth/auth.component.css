@@ -1,11 +1,14 @@
 img {
-  max-width: 175px;
+  max-width: 300px;
 }
 .container {
   height: 100vh;
 }
-span {
+small {
   font-size: x-small;
+}
+span {
+  color: white;
 }
 a {
   cursor: pointer;

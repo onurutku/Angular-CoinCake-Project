@@ -7,9 +7,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { RouterModule } from '@angular/router';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './auth/auth.interceptor';
+import { HomeComponent } from './home/home.component';
+import { AuthService } from './auth/auth.service';
+import { AuthGuardService } from './auth/auth-guard.service';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
-  declarations: [AppComponent, AuthComponent, NotFoundComponent],
+  declarations: [AppComponent, AuthComponent, NotFoundComponent, HomeComponent, HeaderComponent],
   imports: [
     BrowserModule,
     FontAwesomeModule,
@@ -17,8 +23,13 @@ import { NotFoundComponent } from './not-found/not-found.component';
     ReactiveFormsModule,
     AppRoutingModule,
     RouterModule,
+    HttpClientModule,
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    AuthService,
+    AuthGuardService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

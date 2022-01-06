@@ -1,8 +1,8 @@
 <div class="container d-flex justify-content-center align-items-center">
   <div class="row w-50">
     <div class="col-xs-12">
-      <div class="section d-flex justify-content-center mb-3">
-        <a><img class="rounded" src="./../../assets/img/logo.jpg" alt="" /></a>
+      <div class="section d-flex justify-content-center mb-5">
+        <img class="rounded" src="./../../assets/img/logo.jpg" alt="" />
       </div>
       <div class="section w-100 d-flex justify-content-center">
         <form [formGroup]="authForm" (ngSubmit)="onSubmit()" class="w-75">
@@ -19,6 +19,26 @@
               </div>
             </div>
           </div>
+          <div
+            *ngIf="
+              !authForm.get('email').valid &&
+              authForm.get('email').touched &&
+              !isLoginMode
+            "
+            class="help-block bg-warning mb-2 rounded d-flex justify-content-center"
+          >
+            <span>Enter a valid e-mail address</span>
+          </div>
+          <div
+            *ngIf="
+              !authForm.get('email').valid &&
+              authForm.get('email').touched &&
+              isLoginMode
+            "
+            class="help-block bg-warning mb-2 rounded d-flex justify-content-center"
+          >
+            <span>Enter your e-mail address</span>
+          </div>
           <div class="row mb-2 d-flex align-items-center">
             <div class="col-sm-12">
               <div class="form-group">
@@ -31,6 +51,29 @@
                 />
               </div>
             </div>
+          </div>
+          <div
+            *ngIf="
+              !authForm.get('password').valid &&
+              authForm.get('password').touched &&
+              !isLoginMode
+            "
+            class="help-block bg-warning mb-2 rounded d-flex justify-content-center ps-2"
+          >
+            <span>
+              at least 8 characters in length,lowercase letters,uppercase
+              letters,numbers,special characters
+            </span>
+          </div>
+          <div
+            *ngIf="
+              !authForm.get('password').valid &&
+              authForm.get('password').touched &&
+              isLoginMode
+            "
+            class="help-block bg-warning mb-2 rounded d-flex justify-content-center ps-2"
+          >
+            <span>Enter your password</span>
           </div>
           <div *ngIf="!isLoginMode" class="row mb-2">
             <div class="col-sm-12">
@@ -45,11 +88,31 @@
               </div>
             </div>
           </div>
+          <div
+            *ngIf="
+              authForm.get('password').value !==
+                authForm.get('repassword').value &&
+              authForm.get('repassword').touched
+            "
+            class="help-block bg-warning rounded d-flex justify-content-center"
+          >
+            <span>Passwords doesn't match</span>
+          </div>
+          <div
+            *ngIf="errorMessage != null"
+            class="help-block bg-danger rounded d-flex justify-content-center"
+          >
+            <span>{{ errorMessage }}</span>
+          </div>
           <br />
           <div class="row">
             <div class="col-xs-12">
               <div class="form-group d-flex justify-content-center">
-                <button type="submit" class="btn btn-primary btn-sm">
+                <button
+                  [disabled]="!authForm.valid"
+                  type="submit"
+                  class="btn btn-primary btn-sm"
+                >
                   {{ isLoginMode ? "Login" : "Sign Up" }}
                 </button>
                 &nbsp;
@@ -68,7 +131,7 @@
       </div>
       <footer>
         <div class="section d-flex justify-content-center mt-4">
-          <span><fa-icon [icon]="faCopyright"></fa-icon> 2022-2023</span>
+          <small><fa-icon [icon]="faCopyright"></fa-icon> 2022-2023</small>
         </div>
       </footer>
     </div>
