@@ -17,6 +17,7 @@ interface AuthResponseData {
 })
 export class AuthService {
   user = new BehaviorSubject<User>(null);
+
   constructor(private http: HttpClient, private router: Router) {}
   signUp(user: any) {
     return this.http.post<AuthResponseData>(
@@ -49,6 +50,7 @@ export class AuthService {
   logout() {
     localStorage.removeItem('user');
     this.router.navigate(['/auth']);
+    this.user.next(null);
   }
   autoLogin() {
     const newExpirationDate = new Date(new Date().getTime() + 3600 * 1000);
@@ -73,4 +75,5 @@ export class AuthService {
       this.logout();
     }, timer);
   }
+  resetPassword() {}
 }

@@ -8,7 +8,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { faCopyright, faInfo } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCopyright,
+  faInfo,
+  faArrowLeft,
+} from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from './auth.service';
 
 interface Sign {
@@ -25,6 +29,7 @@ interface Sign {
 export class AuthComponent implements OnInit {
   faCopyright = faCopyright;
   faInfo = faInfo;
+  faArrowLeft = faArrowLeft;
   isLoginMode: boolean = true;
   authForm: FormGroup;
   errorMessage: string = null;
@@ -60,6 +65,7 @@ export class AuthComponent implements OnInit {
   }
   changeMode() {
     this.isLoginMode = !this.isLoginMode;
+    this.authForm.reset();
   }
   onSubmit() {
     const user: Sign = {
@@ -107,5 +113,8 @@ export class AuthComponent implements OnInit {
         }
       );
     }
+  }
+  onResetPassword() {
+    this.authService.resetPassword();
   }
 }
