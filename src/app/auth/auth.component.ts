@@ -31,8 +31,10 @@ export class AuthComponent implements OnInit {
   faInfo = faInfo;
   faArrowLeft = faArrowLeft;
   isLoginMode: boolean = true;
+  isPasswordForgot: boolean = false;
   authForm: FormGroup;
   errorMessage: string = null;
+  authMessages: string = null;
 
   checkPasswords: ValidatorFn = (
     authForm: AbstractControl
@@ -59,6 +61,7 @@ export class AuthComponent implements OnInit {
           ),
         ]),
         repassword: new FormControl(null),
+        forgotemail: new FormControl(null),
       },
       { validators: this.checkPasswords }
     );
@@ -85,7 +88,7 @@ export class AuthComponent implements OnInit {
               this.errorMessage = 'e-mail not found';
               break;
             case 'INVALID_PASSWORD':
-              this.errorMessage = 'invalid password,plase check your password';
+              this.errorMessage = 'invalid password,please check your password';
               break;
             case 'USER_DISABLED':
               this.errorMessage = 'your account has been disabled';
@@ -93,10 +96,13 @@ export class AuthComponent implements OnInit {
           }
         }
       );
+      this.messageTimer();
     } else {
       this.authService.signUp(user).subscribe(
-        (data) => {
-          console.log(data);
+        () => {
+          this.authMessages = 'You are successfully signed up!';
+          this.isLoginMode = true;
+          this.authForm.reset();
         },
         (error) => {
           switch (error.error.error.message) {
@@ -112,9 +118,30 @@ export class AuthComponent implements OnInit {
           }
         }
       );
+      this.messageTimer();
     }
   }
-  onResetPassword() {
-    this.authService.resetPassword();
+  messageTimer() {
+    setTimeout(() => {
+      (this.authMessages = null), (this.errorMessage = null);
+    }, 5000);
+  }
+  turnOnForgotPassword() {
+    this.isPasswordForgot = true;
+    this.authForm.reset();
+  }
+  onResetPassword(email: string) {
+    this.authService
+      .resetPassword(email)
+      .then(() => {
+        this.authMessages =
+          'Password reset e-mail has been sent to your e-mail address, please check your mailbox, reset your password and try again';
+      })
+      .catch((error) => {
+        this.errorMessage = error.message;
+      });
+    this.messageTimer();
+    this.authForm.reset();
+    this.isPasswordForgot = false;
   }
 }

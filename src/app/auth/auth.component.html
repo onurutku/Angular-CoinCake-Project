@@ -6,137 +6,172 @@
       </div>
       <div class="section w-100 d-flex justify-content-center">
         <form [formGroup]="authForm" (ngSubmit)="onSubmit()" class="w-75">
-          <div class="row mb-2 d-flex align-items-center">
-            <div class="col-sm-12">
-              <div class="form-group">
-                <input
-                  class="form-control"
-                  type="email"
-                  id="email"
-                  placeholder="e-mail"
-                  [formControlName]="'email'"
-                />
+          <div *ngIf="!isPasswordForgot">
+            <div class="row mb-2 d-flex align-items-center">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <input
+                    class="form-control"
+                    type="email"
+                    id="email"
+                    placeholder="e-mail"
+                    [formControlName]="'email'"
+                  />
+                </div>
               </div>
             </div>
-          </div>
-          <div
-            *ngIf="
-              !authForm.get('email').valid &&
-              authForm.get('email').touched &&
-              !isLoginMode
-            "
-            class="help-block bg-warning mb-2 rounded d-flex justify-content-center"
-          >
-            <span>Enter a valid e-mail address</span>
-          </div>
-          <div
-            *ngIf="
-              !authForm.get('email').valid &&
-              authForm.get('email').touched &&
-              isLoginMode
-            "
-            class="help-block bg-warning mb-2 rounded d-flex justify-content-center"
-          >
-            <span>Enter your e-mail address</span>
-          </div>
-          <div class="row mb-2 d-flex align-items-center">
-            <div class="col-sm-12">
-              <div class="form-group">
-                <input
-                  class="form-control"
-                  type="password"
-                  id="password"
-                  placeholder="password"
-                  [formControlName]="'password'"
-                />
+            <div
+              *ngIf="
+                !authForm.get('email').valid &&
+                authForm.get('email').touched &&
+                !isLoginMode
+              "
+              class="help-block bg-warning mb-2 rounded d-flex justify-content-center"
+            >
+              <span>Enter a valid e-mail address</span>
+            </div>
+            <div
+              *ngIf="
+                !authForm.get('email').valid &&
+                authForm.get('email').touched &&
+                isLoginMode
+              "
+              class="help-block bg-warning mb-2 rounded d-flex justify-content-center"
+            >
+              <span>Enter your e-mail address</span>
+            </div>
+            <div class="row mb-2 d-flex align-items-center">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <input
+                    class="form-control"
+                    type="password"
+                    id="password"
+                    placeholder="password"
+                    [formControlName]="'password'"
+                  />
+                </div>
               </div>
             </div>
-          </div>
-          <div
-            *ngIf="
-              !authForm.get('password').valid &&
-              authForm.get('password').touched &&
-              !isLoginMode
-            "
-            class="help-block bg-warning mb-2 rounded d-flex justify-content-center ps-2"
-          >
-            <span>
-              at least 8 characters in length,lowercase letters,uppercase
-              letters,numbers,special characters
-            </span>
-          </div>
-          <div
-            *ngIf="
-              !authForm.get('password').valid &&
-              authForm.get('password').touched &&
-              isLoginMode
-            "
-            class="help-block bg-warning mb-2 rounded d-flex justify-content-center ps-2"
-          >
-            <span>Enter your password</span>
-          </div>
-          <div *ngIf="!isLoginMode" class="row mb-2">
-            <div class="col-sm-12">
-              <div class="form-group">
-                <input
-                  class="form-control"
-                  type="password"
-                  id="repassword"
-                  placeholder="repeat password"
-                  [formControlName]="'repassword'"
-                />
+            <div
+              *ngIf="
+                !authForm.get('password').valid &&
+                authForm.get('password').touched &&
+                !isLoginMode
+              "
+              class="help-block bg-warning mb-2 rounded d-flex justify-content-center ps-2"
+            >
+              <span>
+                at least 8 characters in length,lowercase letters,uppercase
+                letters,numbers,special characters
+              </span>
+            </div>
+            <div
+              *ngIf="
+                !authForm.get('password').valid &&
+                authForm.get('password').touched &&
+                isLoginMode
+              "
+              class="help-block bg-warning mb-2 rounded d-flex justify-content-center ps-2"
+            >
+              <span>Enter your password</span>
+            </div>
+            <div
+              *ngIf="authMessages"
+              class="help-block bg-success mb-2 rounded d-flex justify-content-center ps-2"
+            >
+              <span>{{ authMessages }}</span>
+            </div>
+            <div *ngIf="!isLoginMode" class="row mb-2">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <input
+                    class="form-control"
+                    type="password"
+                    id="repassword"
+                    placeholder="repeat password"
+                    [formControlName]="'repassword'"
+                  />
+                </div>
               </div>
             </div>
-          </div>
-          <div
-            *ngIf="
-              authForm.get('password').value !==
-                authForm.get('repassword').value &&
-              authForm.get('repassword').touched
-            "
-            class="help-block bg-warning rounded d-flex justify-content-center"
-          >
-            <span>Passwords doesn't match</span>
-          </div>
-          <div
-            *ngIf="errorMessage != null"
-            class="help-block bg-danger rounded d-flex justify-content-center"
-          >
-            <span>{{ errorMessage }}</span>
-          </div>
-          <br />
-          <div class="row">
-            <div class="col-xs-12">
-              <div class="form-group d-flex justify-content-center">
-                <a class="mt-1 me-3" *ngIf="!isLoginMode" (click)="changeMode()"
-                  ><fa-icon [icon]="faArrowLeft"></fa-icon
-                ></a>
-                <button
-                  [disabled]="!authForm.valid"
-                  type="submit"
-                  class="btn btn-primary btn-sm"
-                >
-                  {{ isLoginMode ? "Login" : "Sign Up" }}
-                </button>
-                &nbsp;
-                <button
-                  *ngIf="isLoginMode"
-                  (click)="changeMode()"
-                  type="button"
-                  class="btn btn-primary btn-sm"
-                >
-                  Sign Up
-                </button>
+            <div
+              *ngIf="
+                authForm.get('password').value !==
+                  authForm.get('repassword').value &&
+                authForm.get('repassword').touched
+              "
+              class="help-block bg-warning rounded d-flex justify-content-center"
+            >
+              <span>Passwords doesn't match</span>
+            </div>
+            <div
+              *ngIf="errorMessage != null"
+              class="help-block bg-danger rounded d-flex justify-content-center"
+            >
+              <span>{{ errorMessage }}</span>
+            </div>
+            <br />
+            <div class="row">
+              <div class="col-xs-12">
+                <div class="form-group d-flex justify-content-center">
+                  <a
+                    class="mt-1 me-3"
+                    *ngIf="!isLoginMode"
+                    (click)="changeMode()"
+                    ><fa-icon [icon]="faArrowLeft"></fa-icon
+                  ></a>
+                  <button
+                    [disabled]="!authForm.valid"
+                    type="submit"
+                    class="btn btn-primary btn-sm"
+                  >
+                    {{ isLoginMode ? "Login" : "Sign Up" }}
+                  </button>
+                  &nbsp;
+                  <button
+                    *ngIf="isLoginMode"
+                    (click)="changeMode()"
+                    type="button"
+                    class="btn btn-primary btn-sm"
+                  >
+                    Sign Up
+                  </button>
+                </div>
               </div>
               <div
                 *ngIf="isLoginMode"
                 class="form-group d-flex justify-content-center mt-3"
               >
-                <a (click)="onResetPassword()"
+                <a (click)="turnOnForgotPassword()"
                   ><span style="color: blue; font-size: small"
                     >Forgot your password?</span
                   >
                 </a>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="isPasswordForgot">
+            <div class="row mb-2 d-flex align-items-center">
+              <div class="col-sm-12">
+                <div class="input-group">
+                  <input
+                    class="form-control"
+                    type="email"
+                    id="forgotemail"
+                    placeholder="enter your e-mail address"
+                    [formControlName]="'forgotemail'"
+                    email
+                    #email
+                  />
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm"
+                    (click)="onResetPassword(email.value)"
+                  >
+                    Send
+                  </button>
+                </div>
               </div>
             </div>
           </div>

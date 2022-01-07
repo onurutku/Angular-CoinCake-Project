@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { User } from './user.model';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 interface AuthResponseData {
   idToken: string;
@@ -17,8 +18,11 @@ interface AuthResponseData {
 })
 export class AuthService {
   user = new BehaviorSubject<User>(null);
-
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private angularfireAuth: AngularFireAuth
+  ) {}
   signUp(user: any) {
     return this.http.post<AuthResponseData>(
       'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDfxyw5WYuKOEEa309GL9TsBL4916U1E64',
@@ -75,5 +79,7 @@ export class AuthService {
       this.logout();
     }, timer);
   }
-  resetPassword() {}
+  resetPassword(email: string) {
+    return this.angularfireAuth.sendPasswordResetEmail(email);
+  }
 }

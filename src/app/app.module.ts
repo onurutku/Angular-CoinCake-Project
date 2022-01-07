@@ -13,9 +13,18 @@ import { HomeComponent } from './home/home.component';
 import { AuthService } from './auth/auth.service';
 import { AuthGuardService } from './auth/auth-guard.service';
 import { HeaderComponent } from './header/header.component';
+import { environment } from 'src/environments/environment';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 
 @NgModule({
-  declarations: [AppComponent, AuthComponent, NotFoundComponent, HomeComponent, HeaderComponent],
+  declarations: [
+    AppComponent,
+    AuthComponent,
+    NotFoundComponent,
+    HomeComponent,
+    HeaderComponent,
+  ],
   imports: [
     BrowserModule,
     FontAwesomeModule,
@@ -24,6 +33,8 @@ import { HeaderComponent } from './header/header.component';
     AppRoutingModule,
     RouterModule,
     HttpClientModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFirestoreModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
