@@ -77,34 +77,45 @@ export class AuthComponent implements OnInit {
       returnSecureToken: true,
     };
     if (this.isLoginMode) {
-      this.authService.login(user).subscribe(
-        (responseData) => {
-          console.log(responseData);
-          this.router.navigate(['/home']);
-        },
-        (error) => {
-          switch (error.error.error.message) {
-            case 'EMAIL_NOT_FOUND':
-              this.errorMessage = 'e-mail not found';
-              break;
-            case 'INVALID_PASSWORD':
-              this.errorMessage = 'invalid password,please check your password';
-              break;
-            case 'USER_DISABLED':
-              this.errorMessage = 'your account has been disabled';
-              break;
-          }
+      this.authService.angularfireAuth.onAuthStateChanged((currentUser) => {
+        if (currentUser.emailVerified) {
+          this.authService.login(user).subscribe(
+            (responseData) => {
+              console.log(responseData);
+              this.router.navigate(['/home']);
+            },
+            (error) => {
+              switch (error.error.error.message) {
+                case 'EMAIL_NOT_FOUND':
+                  this.errorMessage = 'e-mail not found';
+                  break;
+                case 'INVALID_PASSWORD':
+                  this.errorMessage =
+                    'invalid password,please check your password';
+                  break;
+                case 'USER_DISABLED':
+                  this.errorMessage = 'your account has been disabled';
+                  break;
+              }
+            }
+          );
+        } else {
+          this.errorMessage = 'Please verify your e-mail address first';
         }
-      );
+      });
+
       this.messageTimer();
     } else {
-      this.authService.signUp(user).subscribe(
-        () => {
-          this.authMessages = 'You are successfully signed up!';
+      this.authService
+        .signUp(user)
+        .then((result) => {
+          this.authMessages =
+            'You are successfully signed up!,Please verify your e-mail address first';
           this.isLoginMode = true;
           this.authForm.reset();
-        },
-        (error) => {
+          result.user.sendEmailVerification();
+        })
+        .catch((error) => {
           switch (error.error.error.message) {
             case 'EMAIL_EXISTS':
               this.errorMessage = 'This e-mail has already taken';
@@ -116,8 +127,7 @@ export class AuthComponent implements OnInit {
               this.errorMessage = 'Too many attempt,please try again later';
               break;
           }
-        }
-      );
+        });
       this.messageTimer();
     }
   }

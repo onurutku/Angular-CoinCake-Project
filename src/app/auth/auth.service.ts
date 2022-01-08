@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Subject, tap } from 'rxjs';
 import { User } from './user.model';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 
@@ -21,12 +21,16 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private angularfireAuth: AngularFireAuth
+    public angularfireAuth: AngularFireAuth
   ) {}
   signUp(user: any) {
-    return this.http.post<AuthResponseData>(
-      'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDfxyw5WYuKOEEa309GL9TsBL4916U1E64',
-      user
+    // return this.http.post<AuthResponseData>(
+    //   'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDfxyw5WYuKOEEa309GL9TsBL4916U1E64',
+    //   user
+    // );
+    return this.angularfireAuth.createUserWithEmailAndPassword(
+      user.email,
+      user.password
     );
   }
   login(user: any) {
@@ -37,6 +41,7 @@ export class AuthService {
       )
       .pipe(
         tap((resData) => {
+          console.log(resData);
           const expirationDate = new Date(
             new Date().getTime() + +resData.expiresIn * 1000
           );
@@ -81,5 +86,12 @@ export class AuthService {
   }
   resetPassword(email: string) {
     return this.angularfireAuth.sendPasswordResetEmail(email);
+  }
+  async sendVerificationMail() {
+    (await this.angularfireAuth.currentUser)
+      .sendEmailVerification()
+      .then(() => {
+        console.log('email sent');
+      });
   }
 }
