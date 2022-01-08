@@ -16,6 +16,10 @@ import { HeaderComponent } from './header/header.component';
 import { environment } from 'src/environments/environment';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
+import { DropdownDirective } from './shared/dropdown.directive';
+import { UsersComponent } from './users/users.component';
+import { UserService } from './users/user.service';
 
 @NgModule({
   declarations: [
@@ -24,6 +28,9 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
     NotFoundComponent,
     HomeComponent,
     HeaderComponent,
+    LoadingSpinnerComponent,
+    DropdownDirective,
+    UsersComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,6 +47,7 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     AuthService,
     AuthGuardService,
+    UserService,
   ],
   bootstrap: [AppComponent],
 })

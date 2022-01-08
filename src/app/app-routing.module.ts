@@ -5,14 +5,25 @@ import { AuthComponent } from './auth/auth.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { HomeComponent } from './home/home.component';
 import { AuthGuardService } from './auth/auth-guard.service';
+import { UsersComponent } from './users/users.component';
 
 const appRoutes: Routes = [
   {
     path: '',
-    redirectTo: '/home',
+    redirectTo: '/user',
     pathMatch: 'full',
   },
-  { path: 'home', component: HomeComponent, canActivate: [AuthGuardService] },
+  {
+    path: 'user',
+    component: UsersComponent,
+    canActivate: [AuthGuardService],
+    // children: [
+    //   {
+    //     path: ':userId',
+    //     component: UsersComponent,
+    //   },
+    // ],
+  },
   {
     path: 'auth',
     component: AuthComponent,

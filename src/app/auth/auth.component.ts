@@ -16,6 +16,7 @@ import {
 import { AuthService } from './auth.service';
 
 interface Sign {
+  userName?: string;
   email: string;
   password: string;
   returnSecureToken: boolean;
@@ -35,6 +36,7 @@ export class AuthComponent implements OnInit {
   authForm: FormGroup;
   errorMessage: string = null;
   authMessages: string = null;
+  isLoading: boolean = false;
 
   checkPasswords: ValidatorFn = (
     authForm: AbstractControl
@@ -53,6 +55,7 @@ export class AuthComponent implements OnInit {
   ngOnInit(): void {
     this.authForm = new FormGroup(
       {
+        userName: new FormControl(null),
         email: new FormControl(null, [Validators.email, Validators.required]),
         password: new FormControl(null, [
           Validators.required,
@@ -71,7 +74,9 @@ export class AuthComponent implements OnInit {
     this.authForm.reset();
   }
   onSubmit() {
+    this.isLoading = true;
     const user: Sign = {
+      userName: this.authForm.get('userName').value,
       email: this.authForm.get('email').value,
       password: this.authForm.get('password').value,
       returnSecureToken: true,
@@ -81,8 +86,13 @@ export class AuthComponent implements OnInit {
         if (currentUser.emailVerified) {
           this.authService.login(user).subscribe(
             (responseData) => {
-              console.log(responseData);
-              this.router.navigate(['/home']);
+              this.router.navigate(['/user']);
+              this.isLoading = false;
+              const uNameStored = JSON.parse(localStorage.getItem('userData'));
+              this.authService
+                .storeUserInfo(responseData, uNameStored)
+                .subscribe((data) => {});
+              localStorage.removeItem('userData');
             },
             (error) => {
               switch (error.error.error.message) {
@@ -97,13 +107,14 @@ export class AuthComponent implements OnInit {
                   this.errorMessage = 'your account has been disabled';
                   break;
               }
+              this.isLoading = false;
             }
           );
         } else {
           this.errorMessage = 'Please verify your e-mail address first';
+          this.isLoading = false;
         }
       });
-
       this.messageTimer();
     } else {
       this.authService
@@ -113,7 +124,9 @@ export class AuthComponent implements OnInit {
             'You are successfully signed up!,Please verify your e-mail address first';
           this.isLoginMode = true;
           this.authForm.reset();
+          console.log(result);
           result.user.sendEmailVerification();
+          this.isLoading = false;
         })
         .catch((error) => {
           switch (error.error.error.message) {
@@ -127,7 +140,10 @@ export class AuthComponent implements OnInit {
               this.errorMessage = 'Too many attempt,please try again later';
               break;
           }
+          this.isLoading = false;
         });
+      localStorage.clear();
+      localStorage.setItem('userData', JSON.stringify(user.userName));
       this.messageTimer();
     }
   }

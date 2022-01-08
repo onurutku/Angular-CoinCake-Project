@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Subject, tap } from 'rxjs';
+import { BehaviorSubject, map, tap } from 'rxjs';
 import { User } from './user.model';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 
@@ -33,15 +33,36 @@ export class AuthService {
       user.password
     );
   }
+  storeUserInfo(userResponseData: any, userName: string) {
+    if (userName) {
+      return this.http.patch(
+        'https://course-app-onur-default-rtdb.europe-west1.firebasedatabase.app/users/' +
+          userResponseData.localId +
+          '.json',
+        {
+          email: userResponseData.email,
+          username: userName,
+        }
+      );
+    } else {
+      return this.http.patch(
+        'https://course-app-onur-default-rtdb.europe-west1.firebasedatabase.app/users/' +
+          userResponseData.localId +
+          '.json',
+        {
+          email: userResponseData.email,
+        }
+      );
+    }
+  }
   login(user: any) {
     return this.http
       .post<AuthResponseData>(
         'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDfxyw5WYuKOEEa309GL9TsBL4916U1E64',
-        user
+        { email: user.email, password: user.password, returnSecureToken: true }
       )
       .pipe(
         tap((resData) => {
-          console.log(resData);
           const expirationDate = new Date(
             new Date().getTime() + +resData.expiresIn * 1000
           );
@@ -53,6 +74,7 @@ export class AuthService {
           );
           this.user.next(user);
           localStorage.setItem('user', JSON.stringify(user));
+          this.autoLogout(+resData.expiresIn * 1000);
         })
       );
   }
