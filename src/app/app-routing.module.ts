@@ -27,8 +27,7 @@ const appRoutes: Routes = [
   },
   {
     path: 'user/:uid/edit',
-    // redirectTo: '/home',
-    // pathMatch: 'full',
+
     component: EditProfileComponent,
   },
   {

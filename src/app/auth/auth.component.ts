@@ -68,6 +68,10 @@ export class AuthComponent implements OnInit {
       },
       { validators: this.checkPasswords }
     );
+    this.authService.errorMessage.subscribe((message) => {
+      this.isLoading = false;
+      this.errorMessage = message;
+    });
   }
   changeMode() {
     this.isLoginMode = !this.isLoginMode;
@@ -82,39 +86,33 @@ export class AuthComponent implements OnInit {
       returnSecureToken: true,
     };
     if (this.isLoginMode) {
-      this.authService.angularfireAuth.onAuthStateChanged((currentUser) => {
-        if (currentUser.emailVerified) {
-          this.authService.login(user).subscribe(
-            (responseData) => {
-              this.router.navigate(['/home']);
-              this.isLoading = false;
-              // const uNameStored = JSON.parse(localStorage.getItem('userData'));
-              // this.authService
-              //   .storeUserInfo(responseData, uNameStored)
-              //   .subscribe((data) => {});
-              // localStorage.removeItem('userData');
-            },
-            (error) => {
-              switch (error.error.error.message) {
-                case 'EMAIL_NOT_FOUND':
-                  this.errorMessage = 'e-mail not found';
-                  break;
-                case 'INVALID_PASSWORD':
-                  this.errorMessage =
-                    'invalid password,please check your password';
-                  break;
-                case 'USER_DISABLED':
-                  this.errorMessage = 'your account has been disabled';
-                  break;
-              }
-              this.isLoading = false;
-            }
-          );
-        } else {
-          this.errorMessage = 'Please verify your e-mail address first';
-          this.isLoading = false;
-        }
-      });
+      this.authService.login(user);
+      // .subscribe(
+      //   (responseData) => {
+      //     console.log(responseData.user.emailVerified);
+      //     if (responseData.user.emailVerified) {
+      //       this.router.navigate(['/home']);
+      //       this.isLoading = false;
+      //     } else {
+      //       this.errorMessage = 'Please verify your e-mail address first';
+      //       this.isLoading = false;
+      //     }
+      //   },
+      //   (error) => {
+      //     switch (error.error.error.message) {
+      //       case 'EMAIL_NOT_FOUND':
+      //         this.errorMessage = 'e-mail not found';
+      //         break;
+      //       case 'INVALID_PASSWORD':
+      //         this.errorMessage = 'invalid password,please check your password';
+      //         break;
+      //       case 'USER_DISABLED':
+      //         this.errorMessage = 'your account has been disabled';
+      //         break;
+      //     }
+      //     this.isLoading = false;
+      //   }
+      // );
       this.messageTimer();
     } else {
       this.authService
@@ -142,8 +140,6 @@ export class AuthComponent implements OnInit {
           }
           this.isLoading = false;
         });
-      // localStorage.clear();
-      // localStorage.setItem('userData', JSON.stringify(user.userName));
       this.messageTimer();
     }
   }
