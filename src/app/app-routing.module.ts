@@ -7,6 +7,7 @@ import { HomeComponent } from './home/home.component';
 import { AuthGuardService } from './auth/auth-guard.service';
 import { UsersComponent } from './users/users.component';
 import { UserGuardService } from './users/user-guard.service';
+import { EditProfileComponent } from './users/edit-profile/edit-profile.component';
 
 const appRoutes: Routes = [
   {
@@ -23,12 +24,12 @@ const appRoutes: Routes = [
     path: 'user/:uid',
     component: UsersComponent,
     canActivate: [AuthGuardService, UserGuardService],
-    // children: [
-    //   {
-    //     path: ':userId',
-    //     component: UsersComponent,
-    //   },
-    // ],
+  },
+  {
+    path: 'user/:uid/edit',
+    // redirectTo: '/home',
+    // pathMatch: 'full',
+    component: EditProfileComponent,
   },
   {
     path: 'auth',

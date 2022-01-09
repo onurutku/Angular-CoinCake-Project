@@ -21,6 +21,7 @@ import { DropdownDirective } from './shared/dropdown.directive';
 import { UsersComponent } from './users/users.component';
 import { UserService } from './users/user.service';
 import { UserGuardService } from './users/user-guard.service';
+import { EditProfileComponent } from './users/edit-profile/edit-profile.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { UserGuardService } from './users/user-guard.service';
     LoadingSpinnerComponent,
     DropdownDirective,
     UsersComponent,
+    EditProfileComponent,
   ],
   imports: [
     BrowserModule,
