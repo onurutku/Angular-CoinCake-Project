@@ -1,4 +1,4 @@
-<header class="p-3 mb-3 border-bottom">
+<!-- <header class="p-3 mb-3 border-bottom">
   <div class="container">
     <div
       class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"
@@ -29,18 +29,10 @@
             >Inventory</a
           >
         </li>
-        <!-- <li><a class="nav-link px-2 link-dark">Customers</a></li>
-        <li><a class="nav-link px-2 link-dark">Products</a></li> -->
+
       </ul>
 
-      <!-- <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-        <input
-          type="search"
-          class="form-control"
-          placeholder="Search..."
-          aria-label="Search"
-        />
-      </form> -->
+
       <div class="dropdown text-end">
         <a
           appDropdown
@@ -49,17 +41,10 @@
           data-bs-toggle="dropdown"
           aria-expanded="false"
           >{{ userLoggedIn.email }}
-          <!-- <img
-            src="https://github.com/mdo.png"
-            alt="mdo"
-            width="32"
-            height="32"
-            class="rounded-circle"
-          /> -->
+
         </a>
         <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-          <!-- <li><a class="dropdown-item">New project...</a></li>
-          <li><a class="dropdown-item">Settings</a></li> -->
+
           <li>
             <a
               [routerLink]="['/user', userLoggedIn.password, 'edit']"
@@ -67,10 +52,88 @@
               >Profile</a
             >
           </li>
-          <!-- <li><hr class="dropdown-divider" /></li> -->
+
           <li><a class="dropdown-item" (click)="onLogout()">Sign out</a></li>
         </ul>
       </div>
     </div>
   </div>
-</header>
+</header> -->
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" [routerLink]="['/home']"
+      ><fa-icon class="text-primary" [icon]="faChartPie"></fa-icon
+    ></a>
+    <button
+      (click)="isCollapsed = !isCollapsed"
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNavDropdown"
+      aria-controls="navbarNavDropdown"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div
+      class="collapse navbar-collapse"
+      [ngbCollapse]="isCollapsed"
+      id="navbarNavDropdown"
+    >
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a
+            [routerLink]="'/home'"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            class="nav-link active"
+            aria-current="page"
+            >Markets</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            [routerLink]="['/user', userLoggedIn.password]"
+            routerLinkActive="active"
+            class="nav-link"
+            >Inventory</a
+          >
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            routerLinkActive="active"
+            appDropdown
+            class="nav-link dropdown-toggle"
+            id="navbarDropdownMenuLink"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            {{ userLoggedIn.email }}
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <!-- <li><a class="dropdown-item" >Action</a></li> -->
+            <li>
+              <a
+                [routerLink]="['/user', userLoggedIn.password, 'edit']"
+                class="dropdown-item"
+                >Profile</a
+              >
+            </li>
+            <li>
+              <a (click)="onLogout()" class="dropdown-item">Log Out</a>
+            </li>
+          </ul>
+        </li>
+        <!-- <li class="nav-item">
+          <a class="nav-link" >Pricing</a>
+        </li> -->
+      </ul>
+    </div>
+    <div class="collapse navbar-collapse float-end">
+      <ul class="navbar-nav"></ul>
+    </div>
+  </div>
+</nav>

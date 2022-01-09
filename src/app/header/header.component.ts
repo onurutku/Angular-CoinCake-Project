@@ -14,6 +14,7 @@ interface UserData {
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
+  isCollapsed = false;
   userLoggedIn: User;
   // userData = <UserData>{
   //   email: '',

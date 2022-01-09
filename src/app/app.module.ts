@@ -22,6 +22,7 @@ import { UsersComponent } from './users/users.component';
 import { UserService } from './users/user.service';
 import { UserGuardService } from './users/user-guard.service';
 import { EditProfileComponent } from './users/edit-profile/edit-profile.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { EditProfileComponent } from './users/edit-profile/edit-profile.componen
     HttpClientModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
+    NgbModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
