@@ -6,17 +6,23 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { HomeComponent } from './home/home.component';
 import { AuthGuardService } from './auth/auth-guard.service';
 import { UsersComponent } from './users/users.component';
+import { UserGuardService } from './users/user-guard.service';
 
 const appRoutes: Routes = [
   {
     path: '',
-    redirectTo: '/user',
+    redirectTo: '/home',
     pathMatch: 'full',
   },
   {
-    path: 'user',
-    component: UsersComponent,
+    path: 'home',
+    component: HomeComponent,
     canActivate: [AuthGuardService],
+  },
+  {
+    path: 'user/:uid',
+    component: UsersComponent,
+    canActivate: [AuthGuardService, UserGuardService],
     // children: [
     //   {
     //     path: ':userId',

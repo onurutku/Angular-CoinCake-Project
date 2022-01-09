@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 })
 export class NotFoundComponent implements OnInit {
   displayTimer: number;
+  interval: any;
   constructor(private router: Router) {}
 
   ngOnInit(): void {
@@ -15,13 +16,14 @@ export class NotFoundComponent implements OnInit {
   }
   redirectTimer() {
     let time = 4;
-    setInterval(() => {
+    this.interval = setInterval(() => {
       if (time > 1) {
         time--;
         console.log(time);
         this.displayTimer = time;
       } else {
-        return this.router.navigate(['/']);
+        clearInterval(this.interval);
+        this.router.navigate(['/']);
       }
     }, 1000);
   }

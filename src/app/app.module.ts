@@ -20,6 +20,7 @@ import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinne
 import { DropdownDirective } from './shared/dropdown.directive';
 import { UsersComponent } from './users/users.component';
 import { UserService } from './users/user.service';
+import { UserGuardService } from './users/user-guard.service';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { UserService } from './users/user.service';
     AuthService,
     AuthGuardService,
     UserService,
+    UserGuardService,
   ],
   bootstrap: [AppComponent],
 })

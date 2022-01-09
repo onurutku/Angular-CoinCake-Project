@@ -86,7 +86,7 @@ export class AuthComponent implements OnInit {
         if (currentUser.emailVerified) {
           this.authService.login(user).subscribe(
             (responseData) => {
-              this.router.navigate(['/user']);
+              this.router.navigate(['/home']);
               this.isLoading = false;
               // const uNameStored = JSON.parse(localStorage.getItem('userData'));
               // this.authService
