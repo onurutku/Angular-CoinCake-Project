@@ -55,7 +55,7 @@ export class AuthComponent implements OnInit {
   ngOnInit(): void {
     this.authForm = new FormGroup(
       {
-        userName: new FormControl(null),
+        // userName: new FormControl(null),
         email: new FormControl(null, [Validators.email, Validators.required]),
         password: new FormControl(null, [
           Validators.required,
@@ -76,7 +76,7 @@ export class AuthComponent implements OnInit {
   onSubmit() {
     this.isLoading = true;
     const user: Sign = {
-      userName: this.authForm.get('userName').value,
+      // userName: this.authForm.get('userName').value,
       email: this.authForm.get('email').value,
       password: this.authForm.get('password').value,
       returnSecureToken: true,
@@ -88,11 +88,11 @@ export class AuthComponent implements OnInit {
             (responseData) => {
               this.router.navigate(['/user']);
               this.isLoading = false;
-              const uNameStored = JSON.parse(localStorage.getItem('userData'));
-              this.authService
-                .storeUserInfo(responseData, uNameStored)
-                .subscribe((data) => {});
-              localStorage.removeItem('userData');
+              // const uNameStored = JSON.parse(localStorage.getItem('userData'));
+              // this.authService
+              //   .storeUserInfo(responseData, uNameStored)
+              //   .subscribe((data) => {});
+              // localStorage.removeItem('userData');
             },
             (error) => {
               switch (error.error.error.message) {
@@ -142,8 +142,8 @@ export class AuthComponent implements OnInit {
           }
           this.isLoading = false;
         });
-      localStorage.clear();
-      localStorage.setItem('userData', JSON.stringify(user.userName));
+      // localStorage.clear();
+      // localStorage.setItem('userData', JSON.stringify(user.userName));
       this.messageTimer();
     }
   }
