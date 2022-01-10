@@ -1,0 +1,29 @@
+<div class="container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Price</th>
+        <th scope="col">Exchange(24h)</th>
+        <th scope="col">Volume(24h)</th>
+        <th scope="col">Market Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let market of markets">
+        <th scope="row">
+          <img style="width: 25px" [src]="market.image" alt="" /> &nbsp; ({{
+            market.symbol | uppercase
+          }}) {{ market.name }}
+        </th>
+        <td>$ {{ market.current_price }}</td>
+        <td>{{ market.price_change_percentage_24h.toFixed(2) }} %</td>
+        <td>$ {{ (market.total_volume / 1000000000).toFixed(1) }} B</td>
+        <td>
+          {{ (market.circulating_supply / 1000000).toFixed(1) }}M
+          {{ market.symbol | uppercase }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

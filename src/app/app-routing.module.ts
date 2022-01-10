@@ -8,17 +8,25 @@ import { AuthGuardService } from './auth/auth-guard.service';
 import { UsersComponent } from './users/users.component';
 import { UserGuardService } from './users/user-guard.service';
 import { EditProfileComponent } from './users/edit-profile/edit-profile.component';
+import { MarketsComponent } from './markets/markets.component';
+import { MarketsResolverService } from './markets/markets-resolver.service';
 
 const appRoutes: Routes = [
   {
     path: '',
-    redirectTo: '/home',
+    redirectTo: '/markets',
     pathMatch: 'full',
   },
   {
     path: 'home',
     component: HomeComponent,
+    // canActivate: [AuthGuardService],
+  },
+  {
+    path: 'markets',
+    component: MarketsComponent,
     canActivate: [AuthGuardService],
+    resolve: { markets: MarketsResolverService },
   },
   {
     path: 'user/:uid',

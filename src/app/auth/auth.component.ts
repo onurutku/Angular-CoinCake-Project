@@ -57,7 +57,6 @@ export class AuthComponent implements OnInit {
   ngOnInit(): void {
     this.authForm = new FormGroup(
       {
-        // userName: new FormControl(null),
         email: new FormControl(null, [Validators.email, Validators.required]),
         password: new FormControl(null, [
           Validators.required,
@@ -82,7 +81,6 @@ export class AuthComponent implements OnInit {
   onSubmit() {
     this.isLoading = true;
     const user: Sign = {
-      // userName: this.authForm.get('userName').value,
       email: this.authForm.get('email').value,
       password: this.authForm.get('password').value,
       returnSecureToken: true,

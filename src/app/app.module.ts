@@ -23,6 +23,9 @@ import { UserService } from './users/user.service';
 import { UserGuardService } from './users/user-guard.service';
 import { EditProfileComponent } from './users/edit-profile/edit-profile.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { MarketsComponent } from './markets/markets.component';
+import { MarketsService } from './markets/markets.service';
+import { MarketsResolverService } from './markets/markets-resolver.service';
 
 @NgModule({
   declarations: [
@@ -35,6 +38,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     DropdownDirective,
     UsersComponent,
     EditProfileComponent,
+    MarketsComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,6 +58,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     AuthGuardService,
     UserService,
     UserGuardService,
+    MarketsService,
+    MarketsResolverService,
   ],
   bootstrap: [AppComponent],
 })

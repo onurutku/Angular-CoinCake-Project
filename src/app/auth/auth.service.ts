@@ -34,28 +34,6 @@ export class AuthService {
       user.password
     );
   }
-  storeUserInfo(userResponseData: any, userName: string) {
-    if (userName) {
-      return this.http.patch(
-        'https://course-app-onur-default-rtdb.europe-west1.firebasedatabase.app/users/' +
-          userResponseData.localId +
-          '.json',
-        {
-          email: userResponseData.email,
-          username: userName,
-        }
-      );
-    } else {
-      return this.http.patch(
-        'https://course-app-onur-default-rtdb.europe-west1.firebasedatabase.app/users/' +
-          userResponseData.localId +
-          '.json',
-        {
-          email: userResponseData.email,
-        }
-      );
-    }
-  }
   async login(user: any) {
     // return this.http
     //   .post<AuthResponseData>(
@@ -95,7 +73,7 @@ export class AuthService {
         this.user.next(userLoggedIn);
         localStorage.setItem('user', JSON.stringify(userLoggedIn));
         this.autoLogout(3600 * 1000);
-        this.router.navigate(['/home']);
+        this.router.navigate(['/markets']);
       } else {
         this.router.navigate(['/auth']);
         this.errorMessage.next('Please verify your e-mail address first');
