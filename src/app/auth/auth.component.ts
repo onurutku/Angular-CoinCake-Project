@@ -12,6 +12,7 @@ import {
   faCopyright,
   faInfo,
   faArrowLeft,
+  faChartPie,
 } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from './auth.service';
 
@@ -31,6 +32,7 @@ export class AuthComponent implements OnInit {
   faCopyright = faCopyright;
   faInfo = faInfo;
   faArrowLeft = faArrowLeft;
+  faChartPie = faChartPie;
   isLoginMode: boolean = true;
   isPasswordForgot: boolean = false;
   authForm: FormGroup;

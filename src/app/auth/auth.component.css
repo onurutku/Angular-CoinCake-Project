@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Shizuru&display=swap");
 img {
   max-width: 300px;
 }
@@ -12,4 +13,12 @@ span {
 }
 a {
   cursor: pointer;
+}
+#logo {
+  font-size: 150px;
+}
+#logotext {
+  font-family: "Shizuru", cursive;
+  font-weight: bold;
+  font-size: xx-large;
 }

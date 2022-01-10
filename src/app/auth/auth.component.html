@@ -1,8 +1,16 @@
 <div class="container d-flex justify-content-center align-items-center">
   <div class="row w-50">
     <div class="col-xs-12">
-      <div class="section d-flex justify-content-center mb-5">
-        <img class="rounded" src="./../../assets/img/logo.jpg" alt="" />
+      <div
+        class="section d-flex justify-content-center flex-column align-items-center"
+      >
+        <!-- <img class="rounded" src="./../../assets/img/logo.jpg" alt="" /> -->
+        <div class="ms-4">
+          <fa-icon id="logo" class="text-primary" [icon]="faChartPie"></fa-icon>
+        </div>
+        <div class="ms-3">
+          <p class="align-self-center" id="logotext" class="mb-5">COINCAKE</p>
+        </div>
       </div>
       <div
         *ngIf="isLoading"
@@ -11,38 +19,9 @@
         <app-loading-spinner></app-loading-spinner>
       </div>
 
-      <div
-        *ngIf="!isLoading"
-        class="section w-100 d-flex justify-content-center"
-      >
+      <div *ngIf="!isLoading" class="section d-flex justify-content-center">
         <form [formGroup]="authForm" (ngSubmit)="onSubmit()" class="w-75">
           <div *ngIf="!isPasswordForgot">
-            <!-- <div
-              *ngIf="!isLoginMode"
-              class="row mb-2 d-flex align-items-center"
-            >
-              <div class="col-sm-12">
-                <div class="form-group">
-                  <input
-                    class="form-control"
-                    type="text"
-                    id="userName"
-                    placeholder="username"
-                    [formControlName]="'userName'"
-                  />
-                </div>
-              </div>
-            </div>
-            <div
-              *ngIf="
-                !authForm.get('userName').valid &&
-                authForm.get('userName').touched &&
-                !isLoginMode
-              "
-              class="help-block bg-warning mb-2 rounded d-flex justify-content-center"
-            >
-              <span>Please enter a username</span>
-            </div> -->
             <div class="row mb-2 d-flex align-items-center">
               <div class="col-sm-12">
                 <div class="form-group">

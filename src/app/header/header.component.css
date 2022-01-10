@@ -1,6 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=Shizuru&display=swap");
 fa-icon {
   font-size: 40px;
 }
 a {
   cursor: pointer;
+}
+#logo {
+  font-family: "Shizuru", cursive;
+  font-weight: bold;
 }
