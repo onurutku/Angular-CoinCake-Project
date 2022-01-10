@@ -1,2 +1,6 @@
-<app-header *ngIf="user"></app-header>
-<router-outlet></router-outlet>
+<div class="sticky-top">
+  <app-header *ngIf="user"></app-header>
+</div>
+<div style="position: relative">
+  <router-outlet></router-outlet>
+</div>

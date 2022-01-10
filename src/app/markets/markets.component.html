@@ -10,7 +10,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let market of markets">
+      <tr *ngFor="let market of markets; let i = index">
         <th scope="row">
           <img style="width: 25px" [src]="market.image" alt="" /> &nbsp; ({{
             market.symbol | uppercase
@@ -26,4 +26,19 @@
       </tr>
     </tbody>
   </table>
+  <button
+    [disabled]="currentPage == 0"
+    class="btn btn-primary"
+    (click)="pageDown()"
+  >
+    Page Down
+  </button>
+  &nbsp;
+  <button
+    [disabled]="!(currentPage < totalPage - 1)"
+    class="btn btn-primary"
+    (click)="pageUp()"
+  >
+    Page Up
+  </button>
 </div>

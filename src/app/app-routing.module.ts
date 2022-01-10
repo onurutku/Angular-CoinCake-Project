@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthComponent } from './auth/auth.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { HomeComponent } from './home/home.component';
+// import { HomeComponent } from './home/home.component';
 import { AuthGuardService } from './auth/auth-guard.service';
 import { UsersComponent } from './users/users.component';
 import { UserGuardService } from './users/user-guard.service';
@@ -17,16 +17,16 @@ const appRoutes: Routes = [
     redirectTo: '/markets',
     pathMatch: 'full',
   },
-  {
-    path: 'home',
-    component: HomeComponent,
-    // canActivate: [AuthGuardService],
-  },
+  // {
+  //   path: 'home',
+  //   component: HomeComponent,
+  //   // canActivate: [AuthGuardService],
+  // },
   {
     path: 'markets',
     component: MarketsComponent,
-    canActivate: [AuthGuardService],
     resolve: { markets: MarketsResolverService },
+    canActivate: [AuthGuardService],
   },
   {
     path: 'user/:uid',
