@@ -152,6 +152,10 @@ export class AuthComponent implements OnInit {
     this.isPasswordForgot = true;
     this.authForm.reset();
   }
+  turnOffForgotPassword() {
+    this.isPasswordForgot = false;
+    this.authForm.reset();
+  }
   onResetPassword(email: string) {
     this.authService
       .resetPassword(email)

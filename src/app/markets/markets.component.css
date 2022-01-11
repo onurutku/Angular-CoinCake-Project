@@ -4,3 +4,16 @@
 .container {
   height: 100vh;
 }
+.green {
+  color: green;
+}
+.red {
+  color: red;
+}
+a {
+  cursor: pointer;
+  color: #007bff;
+}
+fa-icon {
+  color: #007bff;
+}

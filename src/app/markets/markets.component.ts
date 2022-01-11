@@ -1,8 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Data } from '@angular/router';
 import { Subscription } from 'rxjs';
-
 import { MarketsService } from './markets.service';
+import {
+  faChevronRight,
+  faChevronLeft,
+} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-markets',
@@ -10,11 +13,14 @@ import { MarketsService } from './markets.service';
   styleUrls: ['./markets.component.css'],
 })
 export class MarketsComponent implements OnInit, OnDestroy {
+  faChevronRight = faChevronRight;
+  faChevronLeft = faChevronLeft;
   markets: string[] = [];
   totalPage: number;
   currentPage: number = 0;
   incomingFilterWord: string;
   filterSubs: Subscription;
+  totalPageCeil: number;
   constructor(
     private marketsService: MarketsService,
     private route: ActivatedRoute
@@ -23,6 +29,7 @@ export class MarketsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.data.subscribe((data: Data) => {
       this.totalPage = data['markets'].length / 15;
+      this.totalPageCeil = Math.ceil(this.totalPage);
       for (
         let i = this.currentPage * 15;
         i < 15 * (this.currentPage + 1);

@@ -17,7 +17,14 @@
           }}) {{ market.name }}
         </th>
         <td>$ {{ market.current_price }}</td>
-        <td>{{ market.price_change_percentage_24h.toFixed(2) }} %</td>
+        <td
+          [ngClass]="{
+            green: market.price_change_percentage_24h > 0,
+            red: market.price_change_percentage_24h < 0
+          }"
+        >
+          {{ market.price_change_percentage_24h.toFixed(2) }} %
+        </td>
         <td>$ {{ (market.total_volume / 1000000000).toFixed(1) }} B</td>
         <td>
           {{ (market.circulating_supply / 1000000).toFixed(1) }}M
@@ -26,19 +33,17 @@
       </tr>
     </tbody>
   </table>
-  <button
-    [disabled]="currentPage == 0"
-    class="btn btn-primary"
-    (click)="pageDown()"
-  >
-    Page Down
-  </button>
-  &nbsp;
-  <button
-    [disabled]="!(currentPage < totalPage - 1)"
-    class="btn btn-primary"
-    (click)="pageUp()"
-  >
-    Page Up
-  </button>
+  <div class="input-group d-flex justify-content-center">
+    <a *ngIf="currentPage != 0" (click)="pageDown()"
+      >{{ currentPage }}&nbsp; &nbsp;<fa-icon [icon]="faChevronLeft"></fa-icon
+    ></a>
+
+    &nbsp; &nbsp;
+    <span>{{ currentPage + 1 }} of {{ totalPageCeil }}</span> &nbsp; &nbsp;
+    <a *ngIf="currentPage < totalPage - 1" (click)="pageUp()"
+      ><fa-icon [icon]="faChevronRight"></fa-icon>&nbsp; &nbsp;{{
+        currentPage + 2
+      }}</a
+    >
+  </div>
 </div>
