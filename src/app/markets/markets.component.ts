@@ -23,8 +23,6 @@ export class MarketsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.data.subscribe((data: Data) => {
       this.totalPage = data['markets'].length / 15;
-      console.log('current page:' + this.currentPage);
-      console.log('total page: ' + this.totalPage);
       for (
         let i = this.currentPage * 15;
         i < 15 * (this.currentPage + 1);
