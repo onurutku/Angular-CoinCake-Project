@@ -73,9 +73,6 @@ export class MarketsComponent implements OnInit, OnDestroy {
         return;
       }
     }
-    // this.marketsService.getMarketPrices().subscribe((data) => {
-
-    // });
   }
   pageUp() {
     if (this.currentPage < Math.floor(this.totalPage)) {
