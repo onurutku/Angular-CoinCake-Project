@@ -44,9 +44,9 @@ export class MarketsComponent implements OnInit, OnDestroy {
     });
     this.filterSubs = this.marketsService.search.subscribe((data) => {
       this.incomingFilterWord = data;
-      if (this.incomingFilterWord !== '') {
+      if (this.incomingFilterWord) {
         this.initfilterMarketData();
-      } else if (this.incomingFilterWord === '') {
+      } else {
         this.initMarketData();
       }
     });

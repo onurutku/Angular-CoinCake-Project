@@ -33,7 +33,10 @@
       </tr>
     </tbody>
   </table>
-  <div class="input-group d-flex justify-content-center">
+  <div
+    *ngIf="!this.incomingFilterWord"
+    class="input-group d-flex justify-content-center"
+  >
     <a *ngIf="currentPage != 0" (click)="pageDown()"
       >{{ currentPage }}&nbsp; &nbsp;<fa-icon [icon]="faChevronLeft"></fa-icon
     ></a>
