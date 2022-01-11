@@ -48,6 +48,15 @@
               >Inventory</a
             >
           </li>
+          <li class="nav-item">
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="filterWord"
+              (keyup)="onKeyUp()"
+              placeholder="search a coin"
+            />
+          </li>
         </ul>
       </div>
       <div class="ms-4">

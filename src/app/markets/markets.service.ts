@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs';
+import { map, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MarketsService {
+  search = new Subject<string>();
   constructor(private http: HttpClient) {}
   getMarketPrices() {
     return this.http

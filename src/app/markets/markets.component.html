@@ -10,7 +10,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let market of markets; let i = index">
+      <tr *ngFor="let market of markets | search: incomingFilterWord">
         <th scope="row">
           <img style="width: 25px" [src]="market.image" alt="" /> &nbsp; ({{
             market.symbol | uppercase

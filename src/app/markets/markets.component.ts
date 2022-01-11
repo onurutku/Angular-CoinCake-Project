@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Data } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 import { MarketsService } from './markets.service';
 
@@ -8,10 +9,12 @@ import { MarketsService } from './markets.service';
   templateUrl: './markets.component.html',
   styleUrls: ['./markets.component.css'],
 })
-export class MarketsComponent implements OnInit {
+export class MarketsComponent implements OnInit, OnDestroy {
   markets: string[] = [];
   totalPage: number;
   currentPage: number = 0;
+  incomingFilterWord: string;
+  filterSubs: Subscription;
   constructor(
     private marketsService: MarketsService,
     private route: ActivatedRoute
@@ -33,6 +36,19 @@ export class MarketsComponent implements OnInit {
           return;
         }
       }
+    });
+    this.filterSubs = this.marketsService.search.subscribe((data) => {
+      this.incomingFilterWord = data;
+      if (this.incomingFilterWord !== '') {
+        this.initfilterMarketData();
+      } else if (this.incomingFilterWord === '') {
+        this.initMarketData();
+      }
+    });
+  }
+  initfilterMarketData() {
+    this.marketsService.getMarketPrices().subscribe((data) => {
+      this.markets = data;
     });
   }
   initMarketData() {
@@ -62,5 +78,8 @@ export class MarketsComponent implements OnInit {
       this.currentPage--;
       this.initMarketData();
     }
+  }
+  ngOnDestroy(): void {
+    this.filterSubs.unsubscribe();
   }
 }

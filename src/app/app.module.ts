@@ -26,6 +26,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MarketsComponent } from './markets/markets.component';
 import { MarketsService } from './markets/markets.service';
 import { MarketsResolverService } from './markets/markets-resolver.service';
+import { SearchPipe } from './markets/search.pipe';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { MarketsResolverService } from './markets/markets-resolver.service';
     UsersComponent,
     EditProfileComponent,
     MarketsComponent,
+    SearchPipe,
   ],
   imports: [
     BrowserModule,
