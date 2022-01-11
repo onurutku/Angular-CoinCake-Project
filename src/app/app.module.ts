@@ -27,6 +27,7 @@ import { MarketsComponent } from './markets/markets.component';
 import { MarketsService } from './markets/markets.service';
 import { MarketsResolverService } from './markets/markets-resolver.service';
 import { SearchPipe } from './markets/search.pipe';
+import { SortPipe } from './markets/sort.pipe';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { SearchPipe } from './markets/search.pipe';
     EditProfileComponent,
     MarketsComponent,
     SearchPipe,
+    SortPipe,
   ],
   imports: [
     BrowserModule,

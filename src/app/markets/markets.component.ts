@@ -5,6 +5,8 @@ import { MarketsService } from './markets.service';
 import {
   faChevronRight,
   faChevronLeft,
+  faSortAlphaDown,
+  faSortAlphaDownAlt,
 } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -15,12 +17,16 @@ import {
 export class MarketsComponent implements OnInit, OnDestroy {
   faChevronRight = faChevronRight;
   faChevronLeft = faChevronLeft;
+  faSortAlphaDown = faSortAlphaDown;
+  faSortAlphaDownAlt = faSortAlphaDownAlt;
   markets: string[] = [];
+  willSort: string[] = [];
   totalPage: number;
   currentPage: number = 0;
   incomingFilterWord: string;
   filterSubs: Subscription;
   totalPageCeil: number;
+  sortCounter: string;
   constructor(
     private marketsService: MarketsService,
     private route: ActivatedRoute
@@ -28,6 +34,8 @@ export class MarketsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.route.data.subscribe((data: Data) => {
+      this.willSort = data['markets'];
+      console.log(this.willSort);
       this.totalPage = data['markets'].length / 15;
       this.totalPageCeil = Math.ceil(this.totalPage);
       for (
@@ -58,19 +66,16 @@ export class MarketsComponent implements OnInit, OnDestroy {
   }
   initMarketData() {
     this.markets = [];
-    this.marketsService.getMarketPrices().subscribe((data) => {
-      for (
-        let i = this.currentPage * 15;
-        i < 15 * (this.currentPage + 1);
-        i++
-      ) {
-        if (i < data.length) {
-          this.markets.push(data[i]);
-        } else {
-          return;
-        }
+    for (let i = this.currentPage * 15; i < 15 * (this.currentPage + 1); i++) {
+      if (i < this.willSort.length) {
+        this.markets.push(this.willSort[i]);
+      } else {
+        return;
       }
-    });
+    }
+    // this.marketsService.getMarketPrices().subscribe((data) => {
+
+    // });
   }
   pageUp() {
     if (this.currentPage < Math.floor(this.totalPage)) {
@@ -86,5 +91,23 @@ export class MarketsComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.filterSubs.unsubscribe();
+  }
+  sortBy(what: string) {
+    if (!this.sortCounter || this.sortCounter === 'ba') {
+      this.willSort.sort((a, b) => {
+        if (a[what] > b[what]) return 1;
+        if (a[what] < b[what]) return -1;
+        return 0;
+      });
+      this.sortCounter = 'ab';
+    } else if (this.sortCounter === 'ab') {
+      this.willSort.sort((a, b) => {
+        if (a[what] > b[what]) return -1;
+        if (a[what] < b[what]) return 1;
+        return 0;
+      });
+      this.sortCounter = 'ba';
+    }
+    this.initMarketData();
   }
 }

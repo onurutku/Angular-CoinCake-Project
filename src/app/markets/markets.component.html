@@ -1,8 +1,21 @@
 <div class="container">
+  <button (click)="sortBy('name')" class="btn btn-sm btn-primary">sort</button>
   <table class="table">
     <thead>
       <tr>
-        <th scope="col">Name</th>
+        <th scope="col">
+          <fa-icon
+            (click)="sortBy('name')"
+            *ngIf="!sortCounter || sortCounter === 'ab'"
+            [icon]="faSortAlphaDown"
+          ></fa-icon
+          ><fa-icon
+            (click)="sortBy('name')"
+            *ngIf="sortCounter === 'ba'"
+            [icon]="faSortAlphaDownAlt"
+          ></fa-icon>
+          &nbsp; Name
+        </th>
         <th scope="col">Price</th>
         <th scope="col">Exchange(24h)</th>
         <th scope="col">Volume(24h)</th>
