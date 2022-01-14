@@ -35,7 +35,6 @@ export class MarketsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.data.subscribe((data: Data) => {
       this.willSort = data['markets'];
-      console.log(this.willSort);
       this.totalPage = data['markets'].length / 15;
       this.totalPageCeil = Math.ceil(this.totalPage);
       for (
