@@ -1,2 +1,64 @@
-<h1>{{ userLoggedIn.email }}</h1>
-Buraya kişinin coin miktarları gelecek sss
+<div class="container mt-4">
+  <form [formGroup]="coinForm" (submit)="onSubmit()">
+    <div class="form-group">
+      <div class="row">
+        <div class="col-sm-2">
+          <select class="form-select" [formControlName]="'coin'">
+            <option [value]="null" disabled>Select Coin</option>
+            <option *ngFor="let market of markets" [ngValue]="market">
+              {{ market.symbol | uppercase }}
+            </option>
+          </select>
+        </div>
+        <div class="col-sm-2">
+          <span class="input-group-text" aria-readonly="true">{{
+            coinForm.get("coin").value
+              ? coinForm.get("coin").value.current_price + "$"
+              : "Coin Price"
+          }}</span>
+        </div>
+        <div class="col-sm-2">
+          <div class="input-group">
+            <!-- <span class="input-group-text">Amount</span> -->
+            <input
+              class="form-control"
+              type="number"
+              id="amount"
+              [formControlName]="'amount'"
+              placeholder="Amount"
+            />
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <div class="input-group">
+            <!-- <span class="input-group-text">Bought</span> -->
+            <input
+              class="form-control"
+              type="number"
+              id="bought"
+              [formControlName]="'bought'"
+              placeholder="Bought Price"
+            />
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="input-group">
+            <!-- <span class="input-group-text">Bought</span> -->
+            <input
+              class="form-control"
+              type="datetime-local"
+              id="bought-date"
+              [formControlName]="'boughtDate'"
+              placeholder="Bought Date"
+            />
+          </div>
+        </div>
+        <div class="col-sm-1">
+          <button class="btn" type="submit">
+            <fa-icon [icon]="faPlus"></fa-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
