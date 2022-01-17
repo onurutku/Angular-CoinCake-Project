@@ -28,6 +28,8 @@ import { MarketsService } from './markets/markets.service';
 import { MarketsResolverService } from './markets/markets-resolver.service';
 import { SearchPipe } from './markets/search.pipe';
 import { SortPipe } from './markets/sort.pipe';
+import { UsersResolverService } from './users/users-resolver.service';
+import { CurrentPricePipe } from './users/current-price.pipe';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,7 @@ import { SortPipe } from './markets/sort.pipe';
     MarketsComponent,
     SearchPipe,
     SortPipe,
+    CurrentPricePipe,
   ],
   imports: [
     BrowserModule,
@@ -62,6 +65,7 @@ import { SortPipe } from './markets/sort.pipe';
     AuthGuardService,
     UserService,
     UserGuardService,
+    UsersResolverService,
     MarketsService,
     MarketsResolverService,
   ],

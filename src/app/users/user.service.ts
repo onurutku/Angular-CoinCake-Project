@@ -1,61 +1,65 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map, Subject, tap } from 'rxjs';
+import { Subject } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { UserData } from './user-data.model';
 
+interface UserDataResponse {
+  id: string;
+  coinName: string;
+  coinId: string;
+  boughtDate: Date;
+  bought: number;
+  amount: number;
+}
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  // user = new Subject<any>();
+  dataChanged = new Subject<boolean>();
   constructor(private http: HttpClient) {}
-  // getAllUsersData() {
-  //   return this.http
-  //     .get(
-  //       'https://course-app-onur-default-rtdb.europe-west1.firebasedatabase.app/users.json'
-  //     )
-  //     .pipe(
-  //       map((responseData) => {
-  //         const allUsers = [];
-  //         for (let key in responseData) {
-  //           if (responseData.hasOwnProperty(key)) {
-  //             allUsers.push({ ...responseData[key], id: key });
-  //           }
-  //         }
-  //         return allUsers;
-  //       })
-  //     );
   saveUsersData(userData: UserData) {
     return this.http
-      .put(
+      .post<UserDataResponse>(
         'https://course-app-onur-default-rtdb.europe-west1.firebasedatabase.app/userData/' +
           userData.id +
-          '/coins/' +
           '.json',
-        userData.coins
+        userData.coin
       )
-      .subscribe((data) => {
-        // console.log(data);
+      .subscribe(() => {
+        this.dataChanged.next(true);
+      });
+  }
+  getUserData(id: string) {
+    return this.http
+      .get<UserDataResponse>(
+        'https://course-app-onur-default-rtdb.europe-west1.firebasedatabase.app/userData/' +
+          id +
+          '.json'
+      )
+      .pipe(
+        map((responseData) => {
+          const newArray: UserDataResponse[] = [];
+          for (let key in responseData) {
+            if (responseData.hasOwnProperty(key)) {
+              newArray.push({ ...responseData[key], id: key });
+            }
+          }
+          return newArray;
+        })
+      );
+  }
+  deleteData(userId: string, id: string) {
+    this.http
+      .delete(
+        'https://course-app-onur-default-rtdb.europe-west1.firebasedatabase.app/userData/' +
+          userId +
+          '/' +
+          id +
+          '.json'
+      )
+      .subscribe(() => {
+        this.dataChanged.next(true);
       });
   }
 }
-// getUserById(id: string) {
-//   return this.http
-//     .get(
-//       'https://course-app-onur-default-rtdb.europe-west1.firebasedatabase.app/users/' +
-//         id +
-//         '.json'
-//     )
-//     .pipe(
-//       map((responseData) => {
-//         let userById: any;
-//         for (let key in responseData) {
-//           if (responseData.hasOwnProperty(key)) {
-//             userById = responseData;
-//           }
-//         }
-//         return userById;
-//       })
-//     );
-// }
-// }

@@ -62,3 +62,97 @@
     </div>
   </form>
 </div>
+<br />
+<div class="container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>No.</th>
+        <th scope="col">
+          <!-- <fa-icon
+            (click)="sortBy('name')"
+            *ngIf="!sortCounter || sortCounter === 'ab'"
+            [icon]="faSortAlphaDown"
+          ></fa-icon
+          ><fa-icon
+            (click)="sortBy('name')"
+            *ngIf="sortCounter === 'ba'"
+            [icon]="faSortAlphaDownAlt"
+          ></fa-icon> -->
+          &nbsp; Name
+        </th>
+        <th>Market Price</th>
+        <th scope="col">Bought Price(USD)</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Balance</th>
+        <th>Profit/Loss</th>
+        <th scope="col">Bougth Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let userData of usersData; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>
+          <!-- <img style="width: 25px" [src]="market.image" alt="" /> &nbsp; ({{
+            market.symbol | uppercase
+          }}) {{ market.name }} -->
+          {{ userData.coinName }}
+        </td>
+        <td>{{ userData.coinName | currentPrice | async }} $</td>
+        <td>{{ userData.bought }}</td>
+        <td>{{ userData.amount }}</td>
+        <td>
+          {{ userData.amount * (userData.coinName | currentPrice | async) }} $
+        </td>
+        <td
+          [ngClass]="{
+            green:
+              (
+                userData.amount * (userData.coinName | currentPrice | async) -
+                userData.bought * userData.amount
+              ).toFixed(2) > 0,
+            red:
+              (
+                userData.amount * (userData.coinName | currentPrice | async) -
+                userData.bought * userData.amount
+              ).toFixed(2) <= 0
+          }"
+        >
+          {{
+            (
+              userData.amount * (userData.coinName | currentPrice | async) -
+              userData.bought * userData.amount
+            ).toFixed(2)
+          }}
+          $
+        </td>
+        <td>
+          {{ userData.boughtDate }}
+        </td>
+        <td>
+          <fa-icon
+            (click)="onDelete(userData.id)"
+            class="delete"
+            [icon]="faTrashAlt"
+          ></fa-icon>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- <div
+    *ngIf="!this.incomingFilterWord"
+    class="input-group d-flex justify-content-center"
+  >
+    <a *ngIf="currentPage != 0" (click)="pageDown()"
+      >{{ currentPage }}&nbsp; &nbsp;<fa-icon [icon]="faChevronLeft"></fa-icon
+    ></a>
+
+    &nbsp; &nbsp;
+    <span>{{ currentPage + 1 }} of {{ totalPageCeil }}</span> &nbsp; &nbsp;
+    <a *ngIf="currentPage < totalPage - 1" (click)="pageUp()"
+      ><fa-icon [icon]="faChevronRight"></fa-icon>&nbsp; &nbsp;{{
+        currentPage + 2
+      }}</a
+    >
+  </div> -->
+</div>

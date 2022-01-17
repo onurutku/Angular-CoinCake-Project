@@ -10,6 +10,7 @@ import { UserGuardService } from './users/user-guard.service';
 import { EditProfileComponent } from './users/edit-profile/edit-profile.component';
 import { MarketsComponent } from './markets/markets.component';
 import { MarketsResolverService } from './markets/markets-resolver.service';
+import { UsersResolverService } from './users/users-resolver.service';
 
 const appRoutes: Routes = [
   {
@@ -32,6 +33,7 @@ const appRoutes: Routes = [
     path: 'user/:uid',
     component: UsersComponent,
     canActivate: [AuthGuardService, UserGuardService],
+    resolve: { userData: UsersResolverService },
   },
   {
     path: 'user/:uid/edit',

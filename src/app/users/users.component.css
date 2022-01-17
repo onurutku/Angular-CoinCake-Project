@@ -1,0 +1,13 @@
+fa-icon.delete {
+  color: red;
+  cursor: pointer;
+}
+fa-icon {
+  color: blue;
+}
+.green {
+  color: green;
+}
+.red {
+  color: red;
+}

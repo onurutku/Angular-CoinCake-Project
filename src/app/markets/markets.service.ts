@@ -25,4 +25,11 @@ export class MarketsService {
         })
       );
   }
+  getCurrentPrice(name: string) {
+    return this.http.get('https://api.coingecko.com/api/v3/coins/' + name).pipe(
+      map((responseData) => {
+        return responseData;
+      })
+    );
+  }
 }
