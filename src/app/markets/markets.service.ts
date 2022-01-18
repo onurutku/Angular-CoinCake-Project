@@ -18,7 +18,7 @@ export class MarketsService {
           const markets = [];
           for (let key in responseData) {
             if (responseData.hasOwnProperty(key)) {
-              markets.push({ ...responseData[key], id: key });
+              markets.push({ ...responseData[key] });
             }
           }
           return markets;

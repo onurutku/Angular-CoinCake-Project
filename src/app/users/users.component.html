@@ -54,7 +54,7 @@
           </div>
         </div>
         <div class="col-sm-1">
-          <button class="btn" type="submit">
+          <button [disabled]="!coinForm.valid" class="btn" type="submit">
             <fa-icon [icon]="faPlus"></fa-icon>
           </button>
         </div>
@@ -93,34 +93,36 @@
       <tr *ngFor="let userData of usersData; let i = index">
         <td>{{ i + 1 }}</td>
         <td>
-          <!-- <img style="width: 25px" [src]="market.image" alt="" /> &nbsp; ({{
-            market.symbol | uppercase
-          }}) {{ market.name }} -->
           {{ userData.coinName }}
         </td>
-        <td>{{ userData.coinName | currentPrice | async }} $</td>
+        <td>{{ userData.coinId | currentPrice | async }} $</td>
         <td>{{ userData.bought }}</td>
         <td>{{ userData.amount }}</td>
         <td>
-          {{ userData.amount * (userData.coinName | currentPrice | async) }} $
+          {{
+            (
+              userData.amount * (userData.coinId | currentPrice | async)
+            ).toFixed(2)
+          }}
+          $
         </td>
         <td
           [ngClass]="{
             green:
               (
-                userData.amount * (userData.coinName | currentPrice | async) -
+                userData.amount * (userData.coinId | currentPrice | async) -
                 userData.bought * userData.amount
               ).toFixed(2) > 0,
             red:
               (
-                userData.amount * (userData.coinName | currentPrice | async) -
+                userData.amount * (userData.coinId | currentPrice | async) -
                 userData.bought * userData.amount
               ).toFixed(2) <= 0
           }"
         >
           {{
             (
-              userData.amount * (userData.coinName | currentPrice | async) -
+              userData.amount * (userData.coinId | currentPrice | async) -
               userData.bought * userData.amount
             ).toFixed(2)
           }}
@@ -139,6 +141,9 @@
       </tr>
     </tbody>
   </table>
+  <div *ngIf="isLoading" class="d-flex justify-content-center">
+    <app-loading-spinner style="width: 10px"></app-loading-spinner>
+  </div>
   <!-- <div
     *ngIf="!this.incomingFilterWord"
     class="input-group d-flex justify-content-center"

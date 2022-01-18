@@ -10,11 +10,12 @@ export class CurrentPricePipe implements PipeTransform {
 
   async transform(value: any) {
     const lowerValue: string = value.toLowerCase();
+    const nonspace: string = lowerValue.replace(/\s/g, '');
     if (value === 0) {
       return value;
     }
     await this.marketsService
-      .getCurrentPrice(lowerValue)
+      .getCurrentPrice(nonspace)
       .toPromise()
       .then((format) => {
         this.currentPrice = format;

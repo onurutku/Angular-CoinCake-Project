@@ -11,3 +11,9 @@ fa-icon {
 .red {
   color: red;
 }
+select.ng-invalid.ng-touched {
+  border: 1px solid red;
+}
+input.ng-invalid.ng-touched {
+  border: 1px solid red;
+}
