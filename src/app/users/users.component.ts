@@ -70,23 +70,25 @@ export class UsersComponent implements OnInit {
   }
   //reactive form submit
   onSubmit() {
-    this.isLoading = true;
-    const userData: UserData = {
-      id: this.userLoggedIn.password,
-      coin: {
-        coinId: this.coinForm.get('coin').value.id,
-        coinName: this.coinForm.get('coin').value.name,
-        amount: this.coinForm.get('amount').value,
-        bought: this.coinForm.get('bought').value,
-        boughtDate: this.coinForm.get('boughtDate').value,
-      },
-    };
-    //service side save method
-    this.userService.saveUsersData(userData).subscribe(() => {
-      this.userService.dataChanged.next(true);
-      this.isLoading = false;
-    });
-    this.coinForm.reset();
+    if (this.coinForm.valid) {
+      this.isLoading = true;
+      const userData: UserData = {
+        id: this.userLoggedIn.password,
+        coin: {
+          coinId: this.coinForm.get('coin').value.id,
+          coinName: this.coinForm.get('coin').value.name,
+          amount: this.coinForm.get('amount').value,
+          bought: this.coinForm.get('bought').value,
+          boughtDate: this.coinForm.get('boughtDate').value,
+        },
+      };
+      //service side save method
+      this.userService.saveUsersData(userData).subscribe(() => {
+        this.userService.dataChanged.next(true);
+        this.isLoading = false;
+      });
+      this.coinForm.reset();
+    }
   }
   //html get current price for each coin in users list
   currentPrice(name: string) {
