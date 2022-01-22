@@ -5,20 +5,68 @@
         <th scope="col">
           <fa-icon
             (click)="sortBy('name')"
-            *ngIf="!sortCounter || sortCounter === 'ab'"
+            *ngIf="!sortCounter || sortCounter != 'a'"
             [icon]="faSortAlphaDown"
           ></fa-icon
           ><fa-icon
             (click)="sortBy('name')"
-            *ngIf="sortCounter === 'ba'"
+            *ngIf="sortCounter === 'a'"
             [icon]="faSortAlphaDownAlt"
-          ></fa-icon>
-          &nbsp; Name
+          ></fa-icon
+          >&nbsp;Name
         </th>
-        <th scope="col">Price</th>
-        <th scope="col">Exchange(24h)</th>
-        <th scope="col">Volume(24h)</th>
-        <th scope="col">Market Value</th>
+        <th scope="col">
+          <fa-icon
+            [icon]="faSortAmountUp"
+            (click)="sortBy('current_price')"
+            *ngIf="!sortCounter || sortCounter != 'b'"
+          ></fa-icon>
+          <fa-icon
+            [icon]="faSortAmountDown"
+            (click)="sortBy('current_price')"
+            *ngIf="sortCounter === 'b'"
+          ></fa-icon>
+          &nbsp; Price
+        </th>
+        <th scope="col">
+          <fa-icon
+            [icon]="faSortAmountUp"
+            (click)="sortBy('price_change_percentage_24h')"
+            *ngIf="!sortCounter || sortCounter != 'c'"
+          ></fa-icon>
+          <fa-icon
+            [icon]="faSortAmountDown"
+            (click)="sortBy('price_change_percentage_24h')"
+            *ngIf="sortCounter === 'c'"
+          ></fa-icon>
+          &nbsp; Exchange(24h)
+        </th>
+        <th scope="col">
+          <fa-icon
+            [icon]="faSortAmountUp"
+            (click)="sortBy('total_volume')"
+            *ngIf="!sortCounter || sortCounter != 'd'"
+          ></fa-icon>
+          <fa-icon
+            [icon]="faSortAmountDown"
+            (click)="sortBy('total_volume')"
+            *ngIf="sortCounter === 'd'"
+          ></fa-icon>
+          &nbsp; Volume(24h)
+        </th>
+        <th scope="col">
+          <fa-icon
+            [icon]="faSortAmountUp"
+            (click)="sortBy('circulating_supply')"
+            *ngIf="!sortCounter || sortCounter != 'e'"
+          ></fa-icon>
+          <fa-icon
+            [icon]="faSortAmountDown"
+            (click)="sortBy('circulating_supply')"
+            *ngIf="sortCounter === 'e'"
+          ></fa-icon>
+          &nbsp; Market Value
+        </th>
       </tr>
     </thead>
     <tbody>

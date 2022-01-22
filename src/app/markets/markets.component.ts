@@ -7,6 +7,8 @@ import {
   faChevronLeft,
   faSortAlphaDown,
   faSortAlphaDownAlt,
+  faSortAmountUp,
+  faSortAmountDown,
 } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -19,6 +21,8 @@ export class MarketsComponent implements OnInit, OnDestroy {
   faChevronLeft = faChevronLeft;
   faSortAlphaDown = faSortAlphaDown;
   faSortAlphaDownAlt = faSortAlphaDownAlt;
+  faSortAmountUp = faSortAmountUp;
+  faSortAmountDown = faSortAmountDown;
   markets: string[] = [];
   willSort: string[] = [];
   totalPage: number;
@@ -89,20 +93,36 @@ export class MarketsComponent implements OnInit, OnDestroy {
     this.filterSubs.unsubscribe();
   }
   sortBy(what: string) {
-    if (!this.sortCounter || this.sortCounter === 'ba') {
+    if (!this.sortCounter) {
       this.willSort.sort((a, b) => {
         if (a[what] > b[what]) return 1;
         if (a[what] < b[what]) return -1;
         return 0;
       });
-      this.sortCounter = 'ab';
-    } else if (this.sortCounter === 'ab') {
+      switch (what) {
+        case 'name':
+          this.sortCounter = 'a';
+          break;
+        case 'current_price':
+          this.sortCounter = 'b';
+          break;
+        case 'price_change_percentage_24h':
+          this.sortCounter = 'c';
+          break;
+        case 'total_volume':
+          this.sortCounter = 'd';
+          break;
+        case 'circulating_supply':
+          this.sortCounter = 'e';
+          break;
+      }
+    } else {
       this.willSort.sort((a, b) => {
         if (a[what] > b[what]) return -1;
         if (a[what] < b[what]) return 1;
         return 0;
       });
-      this.sortCounter = 'ba';
+      this.sortCounter = '';
     }
     this.initMarketData();
   }
