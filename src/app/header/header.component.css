@@ -9,3 +9,6 @@ a {
   font-family: "Shizuru", cursive;
   font-weight: bold;
 }
+nav {
+  min-width: 100%;
+}

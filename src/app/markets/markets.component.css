@@ -18,3 +18,6 @@ fa-icon {
   color: #007bff;
   cursor: pointer;
 }
+th {
+  min-width: 175px;
+}

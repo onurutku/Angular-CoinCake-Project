@@ -1,112 +1,114 @@
 <div class="container">
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">
-          <fa-icon
-            (click)="sortBy('name')"
-            *ngIf="!sortCounter || sortCounter != 'a'"
-            [icon]="faSortAlphaDown"
-          ></fa-icon
-          ><fa-icon
-            (click)="sortBy('name')"
-            *ngIf="sortCounter === 'a'"
-            [icon]="faSortAlphaDownAlt"
-          ></fa-icon
-          >&nbsp;Name
-        </th>
-        <th scope="col">
-          <fa-icon
-            [icon]="faSortAmountUp"
-            (click)="sortBy('current_price')"
-            *ngIf="!sortCounter || sortCounter != 'b'"
-          ></fa-icon>
-          <fa-icon
-            [icon]="faSortAmountDown"
-            (click)="sortBy('current_price')"
-            *ngIf="sortCounter === 'b'"
-          ></fa-icon>
-          &nbsp; Price
-        </th>
-        <th scope="col">
-          <fa-icon
-            [icon]="faSortAmountUp"
-            (click)="sortBy('price_change_percentage_24h')"
-            *ngIf="!sortCounter || sortCounter != 'c'"
-          ></fa-icon>
-          <fa-icon
-            [icon]="faSortAmountDown"
-            (click)="sortBy('price_change_percentage_24h')"
-            *ngIf="sortCounter === 'c'"
-          ></fa-icon>
-          &nbsp; Exchange(24h)
-        </th>
-        <th scope="col">
-          <fa-icon
-            [icon]="faSortAmountUp"
-            (click)="sortBy('total_volume')"
-            *ngIf="!sortCounter || sortCounter != 'd'"
-          ></fa-icon>
-          <fa-icon
-            [icon]="faSortAmountDown"
-            (click)="sortBy('total_volume')"
-            *ngIf="sortCounter === 'd'"
-          ></fa-icon>
-          &nbsp; Volume(24h)
-        </th>
-        <th scope="col">
-          <fa-icon
-            [icon]="faSortAmountUp"
-            (click)="sortBy('circulating_supply')"
-            *ngIf="!sortCounter || sortCounter != 'e'"
-          ></fa-icon>
-          <fa-icon
-            [icon]="faSortAmountDown"
-            (click)="sortBy('circulating_supply')"
-            *ngIf="sortCounter === 'e'"
-          ></fa-icon>
-          &nbsp; Market Value
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let market of markets | search: incomingFilterWord">
-        <th scope="row">
-          <img style="width: 25px" [src]="market.image" alt="" /> &nbsp; ({{
-            market.symbol | uppercase
-          }}) {{ market.name }}
-        </th>
-        <td>$ {{ market.current_price }}</td>
-        <td
-          [ngClass]="{
-            green: market.price_change_percentage_24h > 0,
-            red: market.price_change_percentage_24h < 0
-          }"
-        >
-          {{ market.price_change_percentage_24h.toFixed(2) }} %
-        </td>
-        <td>$ {{ (market.total_volume / 1000000000).toFixed(1) }} B</td>
-        <td>
-          {{ (market.circulating_supply / 1000000).toFixed(1) }}M
-          {{ market.symbol | uppercase }}
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <div
-    *ngIf="!this.incomingFilterWord"
-    class="input-group d-flex justify-content-center"
-  >
-    <a *ngIf="currentPage != 0" (click)="pageDown()"
-      >{{ currentPage }}&nbsp; &nbsp;<fa-icon [icon]="faChevronLeft"></fa-icon
-    ></a>
-
-    &nbsp; &nbsp;
-    <span>{{ currentPage + 1 }} of {{ totalPageCeil }}</span> &nbsp; &nbsp;
-    <a *ngIf="currentPage < totalPage - 1" (click)="pageUp()"
-      ><fa-icon [icon]="faChevronRight"></fa-icon>&nbsp; &nbsp;{{
-        currentPage + 2
-      }}</a
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">
+            <fa-icon
+              (click)="sortBy('name')"
+              *ngIf="!sortCounter || sortCounter != 'a'"
+              [icon]="faSortAlphaDown"
+            ></fa-icon
+            ><fa-icon
+              (click)="sortBy('name')"
+              *ngIf="sortCounter === 'a'"
+              [icon]="faSortAlphaDownAlt"
+            ></fa-icon
+            >&nbsp;Name
+          </th>
+          <th scope="col">
+            <fa-icon
+              [icon]="faSortAmountUp"
+              (click)="sortBy('current_price')"
+              *ngIf="!sortCounter || sortCounter != 'b'"
+            ></fa-icon>
+            <fa-icon
+              [icon]="faSortAmountDown"
+              (click)="sortBy('current_price')"
+              *ngIf="sortCounter === 'b'"
+            ></fa-icon>
+            Price
+          </th>
+          <th scope="col">
+            <fa-icon
+              [icon]="faSortAmountUp"
+              (click)="sortBy('price_change_percentage_24h')"
+              *ngIf="!sortCounter || sortCounter != 'c'"
+            ></fa-icon>
+            <fa-icon
+              [icon]="faSortAmountDown"
+              (click)="sortBy('price_change_percentage_24h')"
+              *ngIf="sortCounter === 'c'"
+            ></fa-icon>
+            &nbsp;Exchange(24h)
+          </th>
+          <th scope="col">
+            <fa-icon
+              [icon]="faSortAmountUp"
+              (click)="sortBy('total_volume')"
+              *ngIf="!sortCounter || sortCounter != 'd'"
+            ></fa-icon>
+            <fa-icon
+              [icon]="faSortAmountDown"
+              (click)="sortBy('total_volume')"
+              *ngIf="sortCounter === 'd'"
+            ></fa-icon>
+            Volume(24h)
+          </th>
+          <th scope="col">
+            <fa-icon
+              [icon]="faSortAmountUp"
+              (click)="sortBy('circulating_supply')"
+              *ngIf="!sortCounter || sortCounter != 'e'"
+            ></fa-icon>
+            <fa-icon
+              [icon]="faSortAmountDown"
+              (click)="sortBy('circulating_supply')"
+              *ngIf="sortCounter === 'e'"
+            ></fa-icon>
+            Market Value
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let market of markets | search: incomingFilterWord">
+          <th scope="row">
+            <img style="width: 25px" [src]="market.image" alt="" /> &nbsp; ({{
+              market.symbol | uppercase
+            }}) {{ market.name }}
+          </th>
+          <td>$ {{ market.current_price }}</td>
+          <td
+            [ngClass]="{
+              green: market.price_change_percentage_24h > 0,
+              red: market.price_change_percentage_24h < 0
+            }"
+          >
+            {{ market.price_change_percentage_24h.toFixed(2) }} %
+          </td>
+          <td>$ {{ (market.total_volume / 1000000000).toFixed(1) }} B</td>
+          <td>
+            {{ (market.circulating_supply / 1000000).toFixed(1) }}M
+            {{ market.symbol | uppercase }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div
+      *ngIf="!this.incomingFilterWord"
+      class="input-group d-flex justify-content-center"
     >
+      <a *ngIf="currentPage != 0" (click)="pageDown()"
+        >{{ currentPage }}&nbsp; &nbsp;<fa-icon [icon]="faChevronLeft"></fa-icon
+      ></a>
+
+      &nbsp; &nbsp;
+      <span>{{ currentPage + 1 }} of {{ totalPageCeil }}</span> &nbsp; &nbsp;
+      <a *ngIf="currentPage < totalPage - 1" (click)="pageUp()"
+        ><fa-icon [icon]="faChevronRight"></fa-icon>&nbsp; &nbsp;{{
+          currentPage + 2
+        }}</a
+      >
+    </div>
   </div>
 </div>
