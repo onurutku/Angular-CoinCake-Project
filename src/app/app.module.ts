@@ -30,6 +30,7 @@ import { SearchPipe } from './markets/search.pipe';
 import { SortPipe } from './markets/sort.pipe';
 import { UsersResolverService } from './users/users-resolver.service';
 import { CurrentPricePipe } from './users/current-price.pipe';
+import { ConfirmComponent } from './shared/confirm/confirm.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { CurrentPricePipe } from './users/current-price.pipe';
     SearchPipe,
     SortPipe,
     CurrentPricePipe,
+    ConfirmComponent,
   ],
   imports: [
     BrowserModule,

@@ -22,6 +22,14 @@ export class UsersComponent implements OnInit {
   usersData = [];
   logCoin = {} as any;
   isLoading: boolean = false;
+  invalidSelect: boolean = false;
+  invalidAmount: boolean = false;
+  invalidBought: boolean = false;
+  successAdd: boolean = false;
+  deleted: string = null;
+  askMessage: string = null;
+  confirmOrCancel: boolean = null;
+  willDelete: string = null;
 
   constructor(
     private authService: AuthService,
@@ -88,7 +96,27 @@ export class UsersComponent implements OnInit {
         this.isLoading = false;
       });
       this.coinForm.reset();
+      this.successAdd = true;
+      this.errorTimer();
+    } else {
+      if (this.coinForm.get('coin').invalid) {
+        this.invalidSelect = true;
+      } else if (this.coinForm.get('amount').invalid) {
+        this.invalidAmount = true;
+      } else if (this.coinForm.get('bought').invalid) {
+        this.invalidBought = true;
+      }
+      this.errorTimer();
     }
+  }
+  errorTimer() {
+    setTimeout(() => {
+      this.invalidAmount = false;
+      this.invalidBought = false;
+      this.invalidSelect = false;
+      this.successAdd = false;
+      this.deleted = null;
+    }, 3000);
   }
   //html get current price for each coin in users list
   currentPrice(name: string) {
@@ -98,8 +126,22 @@ export class UsersComponent implements OnInit {
       return zurna;
     });
   }
-  //delete coin from users coinlist
+  //run modal to make response for delete coin
   onDelete(id: string) {
-    this.userService.deleteData(this.userLoggedIn.password, id);
+    this.askMessage = 'Are you sure to delete this coin from your list?';
+    this.willDelete = id;
+  }
+  //delete coin from users coinlist
+  receiveMessage($event) {
+    this.confirmOrCancel = $event.cond;
+    console.log(this.confirmOrCancel);
+    if (this.confirmOrCancel == true) {
+      this.userService.deleteData(this.userLoggedIn.password, $event.id);
+      this.deleted = 'Successfully deleted';
+      this.askMessage = null;
+      this.errorTimer();
+    } else {
+      this.askMessage = null;
+    }
   }
 }

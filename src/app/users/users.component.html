@@ -61,6 +61,48 @@
       </div>
     </div>
   </form>
+  <app-confirm
+    [message]="askMessage"
+    [willDelete]="willDelete"
+    *ngIf="askMessage"
+    (newItemEvent)="receiveMessage($event, id)"
+  ></app-confirm>
+  <div class="message mt-2" *ngIf="successAdd">
+    <span class="help-block bg-success">Successfully Added!</span>
+  </div>
+  <div class="message mt-2" *ngIf="deleted">
+    <span class="help-block bg-success">{{ deleted }}</span>
+  </div>
+  <div
+    class="message mt-2"
+    *ngIf="
+      invalidAmount ||
+      (coinForm.get('amount').invalid && coinForm.get('amount').touched)
+    "
+  >
+    <span class="help-block bg-danger">Invalid amount value!</span>
+  </div>
+  <div
+    class="message mt-2"
+    *ngIf="
+      invalidBought ||
+      (coinForm.get('bought').invalid && coinForm.get('bought').touched)
+    "
+  >
+    <span class="help-block bg-danger">Invalid bought price!</span>
+  </div>
+  <div
+    class="message mt-2"
+    *ngIf="
+      invalidSelect ||
+      (coinForm.get('coin').invalid && coinForm.get('coin').touched)
+    "
+  >
+    <span class="help-block bg-danger">Select a coin!</span>
+  </div>
+  <!-- <div class="mt-2" *ngIf="invalid">
+    <span class="help-block bg-danger">{{ invalid }}</span>
+  </div> -->
 </div>
 <br />
 <div class="container">

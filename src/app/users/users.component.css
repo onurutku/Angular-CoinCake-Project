@@ -20,3 +20,6 @@ input.ng-invalid.ng-touched {
 th {
   min-width: 100px;
 }
+.message span {
+  color: white;
+}
