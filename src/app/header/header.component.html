@@ -1,11 +1,11 @@
-<nav class="navbar navbar-expand-lg">
+<nav class="navbar navbar-expand-lg bg-primary">
   <div class="container-fluid">
     <a
       class="navbar-brand ms-4 d-flex align-items-center"
       [routerLink]="['/markets']"
     >
       <div>
-        <fa-icon class="text-primary" [icon]="faChartPie"></fa-icon>
+        <fa-icon [icon]="faChartPie"></fa-icon>
       </div>
       <div class="ms-3">
         <span class="align-self-center" id="logo" class="mb-5"> COINCAKE</span>
@@ -21,7 +21,7 @@
       aria-expanded="false"
       aria-label="Toggle navigation"
     >
-      <span class="navbar-toggler-icon"></span>
+      <fa-icon [icon]="faBars"></fa-icon>
     </button>
     <div
       class="collapse navbar-collapse w-100 justify-content-between"

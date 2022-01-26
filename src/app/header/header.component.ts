@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { faChartPie } from '@fortawesome/free-solid-svg-icons';
+import { faChartPie, faBars } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from '../auth/auth.service';
 import { User } from '../auth/user.model';
 import { MarketsService } from '../markets/markets.service';
@@ -24,6 +24,7 @@ export class HeaderComponent implements OnInit {
   // };
 
   faChartPie = faChartPie;
+  faBars = faBars;
   constructor(
     private authService: AuthService,
     private marketsService: MarketsService
