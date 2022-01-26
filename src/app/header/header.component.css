@@ -10,5 +10,5 @@ a {
   font-weight: bold;
 }
 nav {
-  min-width: 100%;
+  width: 100vw;
 }

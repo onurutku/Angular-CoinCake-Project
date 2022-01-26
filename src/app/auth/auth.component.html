@@ -202,8 +202,15 @@
         </form>
       </div>
       <footer>
-        <div class="section d-flex justify-content-center mt-4">
-          <small><fa-icon [icon]="faCopyright"></fa-icon> 2022-2023</small>
+        <div
+          class="section d-flex align-items-center justify-content-center mt-4 flex-column"
+        >
+          <div>
+            <small>{{ version }}</small>
+          </div>
+          <div>
+            <small><fa-icon [icon]="faCopyright"></fa-icon> 2022-2023</small>
+          </div>
         </div>
       </footer>
     </div>

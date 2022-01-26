@@ -17,3 +17,6 @@ select.ng-invalid.ng-touched {
 input.ng-invalid.ng-touched {
   border: 1px solid red;
 }
+th {
+  min-width: 100px;
+}

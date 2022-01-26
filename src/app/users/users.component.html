@@ -64,12 +64,13 @@
 </div>
 <br />
 <div class="container">
-  <table class="table">
-    <thead>
-      <tr>
-        <th>No.</th>
-        <th scope="col">
-          <!-- <fa-icon
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>No.</th>
+          <th scope="col">
+            <!-- <fa-icon
             (click)="sortBy('name')"
             *ngIf="!sortCounter || sortCounter === 'ab'"
             [icon]="faSortAlphaDown"
@@ -79,71 +80,73 @@
             *ngIf="sortCounter === 'ba'"
             [icon]="faSortAlphaDownAlt"
           ></fa-icon> -->
-          &nbsp; Name
-        </th>
-        <th>Market Price</th>
-        <th scope="col">Bought Price(USD)</th>
-        <th scope="col">Amount</th>
-        <th scope="col">Balance</th>
-        <th>Profit/Loss</th>
-        <th scope="col">Bougth Date</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let userData of usersData; let i = index">
-        <td>{{ i + 1 }}</td>
-        <td>
-          {{ userData.coinName }}
-        </td>
-        <td>{{ userData.coinId | currentPrice | async }} $</td>
-        <td>{{ userData.bought }}</td>
-        <td>{{ userData.amount }}</td>
-        <td>
-          {{
-            (
-              userData.amount * (userData.coinId | currentPrice | async)
-            ).toFixed(2)
-          }}
-          $
-        </td>
-        <td
-          [ngClass]="{
-            green:
+            &nbsp; Name
+          </th>
+          <th>Market Price</th>
+          <th scope="col">Bought Price(USD)</th>
+          <th scope="col">Amount</th>
+          <th scope="col">Balance</th>
+          <th>Profit/Loss</th>
+          <th scope="col">Bougth Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let userData of usersData; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>
+            {{ userData.coinName }}
+          </td>
+          <td>{{ userData.coinId | currentPrice | async }} $</td>
+          <td>{{ userData.bought }}</td>
+          <td>{{ userData.amount }}</td>
+          <td>
+            {{
+              (
+                userData.amount * (userData.coinId | currentPrice | async)
+              ).toFixed(2)
+            }}
+            $
+          </td>
+          <td
+            [ngClass]="{
+              green:
+                (
+                  userData.amount * (userData.coinId | currentPrice | async) -
+                  userData.bought * userData.amount
+                ).toFixed(2) > 0,
+              red:
+                (
+                  userData.amount * (userData.coinId | currentPrice | async) -
+                  userData.bought * userData.amount
+                ).toFixed(2) <= 0
+            }"
+          >
+            {{
               (
                 userData.amount * (userData.coinId | currentPrice | async) -
                 userData.bought * userData.amount
-              ).toFixed(2) > 0,
-            red:
-              (
-                userData.amount * (userData.coinId | currentPrice | async) -
-                userData.bought * userData.amount
-              ).toFixed(2) <= 0
-          }"
-        >
-          {{
-            (
-              userData.amount * (userData.coinId | currentPrice | async) -
-              userData.bought * userData.amount
-            ).toFixed(2)
-          }}
-          $
-        </td>
-        <td>
-          {{ userData.boughtDate }}
-        </td>
-        <td>
-          <fa-icon
-            (click)="onDelete(userData.id)"
-            class="delete"
-            [icon]="faTrashAlt"
-          ></fa-icon>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <div *ngIf="isLoading" class="d-flex justify-content-center">
-    <app-loading-spinner style="width: 10px"></app-loading-spinner>
+              ).toFixed(2)
+            }}
+            $
+          </td>
+          <td>
+            {{ userData.boughtDate }}
+          </td>
+          <td>
+            <fa-icon
+              (click)="onDelete(userData.id)"
+              class="delete"
+              [icon]="faTrashAlt"
+            ></fa-icon>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="isLoading" class="d-flex justify-content-center">
+      <app-loading-spinner style="width: 10px"></app-loading-spinner>
+    </div>
   </div>
+
   <!-- <div
     *ngIf="!this.incomingFilterWord"
     class="input-group d-flex justify-content-center"
