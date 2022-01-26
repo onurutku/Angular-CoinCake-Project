@@ -52,7 +52,7 @@ export class AuthService {
     //         expirationDate
     //       );
     //       this.user.next(user);
-    //       localStorage.setItem('user', JSON.stringify(user));
+    //       sessionStorage.setItem('user', JSON.stringify(user));
     //       this.autoLogout(+resData.expiresIn * 1000);
     //     })
     //   );
@@ -71,7 +71,7 @@ export class AuthService {
       );
       if (result.user.emailVerified) {
         this.user.next(userLoggedIn);
-        localStorage.setItem('user', JSON.stringify(userLoggedIn));
+        sessionStorage.setItem('user', JSON.stringify(userLoggedIn));
         this.autoLogout(3600 * 1000);
         this.router.navigate(['/markets']);
       } else {
@@ -83,13 +83,13 @@ export class AuthService {
     }
   }
   logout() {
-    localStorage.removeItem('user');
+    sessionStorage.removeItem('user');
     this.router.navigate(['/auth']);
     this.user.next(null);
   }
   autoLogin() {
     const newExpirationDate = new Date(new Date().getTime() + 3600 * 1000);
-    const getFromLocal = JSON.parse(localStorage.getItem('user'));
+    const getFromLocal = JSON.parse(sessionStorage.getItem('user'));
     if (!getFromLocal) {
       return;
     }
