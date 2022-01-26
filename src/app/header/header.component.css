@@ -14,3 +14,6 @@ a {
 nav {
   width: 100vw;
 }
+.dropdown-item {
+  color: black;
+}
