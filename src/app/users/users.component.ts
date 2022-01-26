@@ -134,7 +134,6 @@ export class UsersComponent implements OnInit {
   //delete coin from users coinlist
   receiveMessage($event) {
     this.confirmOrCancel = $event.cond;
-    console.log(this.confirmOrCancel);
     if (this.confirmOrCancel == true) {
       this.userService.deleteData(this.userLoggedIn.password, $event.id);
       this.deleted = 'Successfully deleted';
