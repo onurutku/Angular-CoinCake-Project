@@ -39,7 +39,7 @@ export class AuthComponent implements OnInit {
   errorMessage: string = null;
   authMessages: string = null;
   isLoading: boolean = false;
-  version: string = 'v1.0.13';
+  version: string = 'v1.0.14';
 
   checkPasswords: ValidatorFn = (
     authForm: AbstractControl

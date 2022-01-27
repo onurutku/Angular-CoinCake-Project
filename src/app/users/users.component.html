@@ -168,8 +168,15 @@
                 userData.amount * (userData.coinId | currentPrice | async) -
                 userData.bought * userData.amount
               ).toFixed(2)
-            }}
-            $
+            }}$ /
+            {{
+              (
+                (((userData.coinId | currentPrice | async) * userData.amount -
+                  userData.bought * userData.amount) *
+                  100) /
+                (userData.bought * userData.amount)
+              ).toFixed(2)
+            }}%
           </td>
           <td>
             {{ userData.boughtDate }}
