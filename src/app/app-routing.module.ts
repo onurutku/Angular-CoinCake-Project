@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthComponent } from './auth/auth.component';
-import { NotFoundComponent } from './not-found/not-found.component';
 // import { HomeComponent } from './home/home.component';
 import { AuthGuardService } from './auth/auth-guard.service';
 import { UsersComponent } from './users/users.component';
@@ -11,6 +10,7 @@ import { EditProfileComponent } from './users/edit-profile/edit-profile.componen
 import { MarketsComponent } from './markets/markets.component';
 import { MarketsResolverService } from './markets/markets-resolver.service';
 import { UsersResolverService } from './users/users-resolver.service';
+import { NotFoundComponent } from './shared/not-found/not-found.component';
 
 const appRoutes: Routes = [
   {
@@ -23,26 +23,50 @@ const appRoutes: Routes = [
   //   component: HomeComponent,
   //   // canActivate: [AuthGuardService],
   // },
+  // {
+  //   path: 'markets',
+  //   component: MarketsComponent,
+  //   // loadChildren: () =>
+  //   //   import('./markets/markets.module').then((m) => m.MarketsModule),
+  //   resolve: { markets: MarketsResolverService },
+  //   canActivate: [AuthGuardService],
+  // },
   {
     path: 'markets',
-    component: MarketsComponent,
-    resolve: { markets: MarketsResolverService },
-    canActivate: [AuthGuardService],
+    loadChildren: () =>
+      import('./markets/markets.module').then((m) => m.MarketsModule),
   },
+  // {
+  //   path: 'user/:uid',
+  //   component: UsersComponent,
+  //   canActivate: [AuthGuardService, UserGuardService],
+  //   resolve: { userData: UsersResolverService },
+  // },
   {
     path: 'user/:uid',
-    component: UsersComponent,
-    canActivate: [AuthGuardService, UserGuardService],
-    resolve: { userData: UsersResolverService },
+    loadChildren: () =>
+      import('./users/users.module').then((m) => m.UsersModule),
   },
+  // {
+  //   path: 'user/:uid/edit',
+
+  //   component: EditProfileComponent,
+  // },
   {
     path: 'user/:uid/edit',
-
-    component: EditProfileComponent,
+    loadChildren: () =>
+      import('./users/edit-profile/edit-profile.module').then(
+        (m) => m.EditProfileModule
+      ),
   },
+
+  // {
+  //   path: 'auth',
+  //   component: AuthComponent,
+  // },
   {
     path: 'auth',
-    component: AuthComponent,
+    loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
   {
     path: 'not-found',

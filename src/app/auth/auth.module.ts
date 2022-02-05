@@ -4,10 +4,22 @@ import { AuthComponent } from './auth.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [AuthComponent],
-  imports: [CommonModule, FontAwesomeModule, ReactiveFormsModule, SharedModule],
+  imports: [
+    RouterModule.forChild([
+      {
+        path: '',
+        component: AuthComponent,
+      },
+    ]),
+    CommonModule,
+    FontAwesomeModule,
+    ReactiveFormsModule,
+    SharedModule,
+  ],
   exports: [AuthComponent],
 })
 export class AuthModule {}

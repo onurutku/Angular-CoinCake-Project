@@ -5,7 +5,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { RouterModule } from '@angular/router';
-import { NotFoundComponent } from './not-found/not-found.component';
+
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { HomeComponent } from './home/home.component';
@@ -25,6 +25,7 @@ import { UsersModule } from './users/users.module';
 import { MarketsModule } from './markets/markets.module';
 import { AuthModule } from './auth/auth.module';
 import { SharedModule } from './shared/shared.module';
+import { EditProfileModule } from './users/edit-profile/edit-profile.module';
 
 //Users Module
 // import { CurrentPricePipe } from './users/current-price.pipe';
@@ -43,14 +44,10 @@ import { SharedModule } from './shared/shared.module';
 // import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
 // import { DropdownDirective } from './shared/dropdown.directive';
 // import { ConfirmComponent } from './shared/confirm/confirm.component';
+// import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    NotFoundComponent,
-    HomeComponent,
-    HeaderComponent,
-  ],
+  declarations: [AppComponent, HomeComponent, HeaderComponent],
   imports: [
     BrowserModule,
     FontAwesomeModule,
@@ -66,6 +63,7 @@ import { SharedModule } from './shared/shared.module';
     MarketsModule,
     AuthModule,
     SharedModule,
+    EditProfileModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
