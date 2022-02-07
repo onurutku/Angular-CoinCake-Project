@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Data } from '@angular/router';
 import { faPlus, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { map, Observable, ReplaySubject } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { User } from '../auth/user.model';
 import { MarketsService } from '../markets/markets.service';
 import { UserData } from './user-data.model';
+import { UserGuardService } from './user-guard.service';
 import { UserService } from './user.service';
 
 @Component({
@@ -35,7 +37,8 @@ export class UsersComponent implements OnInit {
     private authService: AuthService,
     private marketsService: MarketsService,
     private userService: UserService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private userGuard: UserGuardService
   ) {}
   ngOnInit(): void {
     //fetch users coin data informations from service
@@ -134,13 +137,28 @@ export class UsersComponent implements OnInit {
   //delete coin from users coinlist
   receiveMessage($event) {
     this.confirmOrCancel = $event.cond;
-    if (this.confirmOrCancel == true) {
+    if (this.confirmOrCancel) {
       this.userService.deleteData(this.userLoggedIn.password, $event.id);
       this.deleted = 'Successfully deleted';
       this.askMessage = null;
       this.errorTimer();
+      this.userGuard.project.next(this.confirmOrCancel);
     } else {
       this.askMessage = null;
     }
   }
+  //ALTERNATİF ÇÖZÜM 2 / 1. çözüm user-guard.service.ts dosyasında
+  canDeactivate(): boolean | Observable<boolean> | Promise<boolean> {
+    if (this.coinForm.untouched) {
+      return true;
+    } else {
+      this.askMessage = 'Are you sure to leave from this page without saving?';
+      return this.userGuard.project.pipe(
+        map((data) => {
+          return data ? data : false;
+        })
+      );
+    }
+  }
+  //ALTERNATİF ÇÖZÜM 2 / 1. çözüm user-guard.service.ts dosyasında
 }

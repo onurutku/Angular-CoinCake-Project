@@ -65,7 +65,7 @@
     [message]="askMessage"
     [willDelete]="willDelete"
     *ngIf="askMessage"
-    (newItemEvent)="receiveMessage($event, id)"
+    (newItemEvent)="receiveMessage($event)"
   ></app-confirm>
   <div class="message mt-2" *ngIf="successAdd">
     <span class="help-block bg-success">Successfully Added!</span>

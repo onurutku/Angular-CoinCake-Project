@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Routes } from '@angular/router';
-import { AuthComponent } from './auth/auth.component';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+// import { AuthComponent } from './auth/auth.component';
 // import { HomeComponent } from './home/home.component';
-import { AuthGuardService } from './auth/auth-guard.service';
-import { UsersComponent } from './users/users.component';
-import { UserGuardService } from './users/user-guard.service';
-import { EditProfileComponent } from './users/edit-profile/edit-profile.component';
-import { MarketsComponent } from './markets/markets.component';
-import { MarketsResolverService } from './markets/markets-resolver.service';
-import { UsersResolverService } from './users/users-resolver.service';
+// import { AuthGuardService } from './auth/auth-guard.service';
+// import { UsersComponent } from './users/users.component';
+// import { UserGuardService } from './users/user-guard.service';
+// import { EditProfileComponent } from './users/edit-profile/edit-profile.component';
+// import { MarketsComponent } from './markets/markets.component';
+// import { MarketsResolverService } from './markets/markets-resolver.service';
+// import { UsersResolverService } from './users/users-resolver.service';
 import { NotFoundComponent } from './shared/not-found/not-found.component';
 
 const appRoutes: Routes = [
@@ -79,6 +79,9 @@ const appRoutes: Routes = [
 ];
 @NgModule({
   declarations: [],
-  imports: [CommonModule, RouterModule.forRoot(appRoutes)],
+  imports: [
+    CommonModule,
+    RouterModule.forRoot(appRoutes, { preloadingStrategy: PreloadAllModules }),
+  ],
 })
 export class AppRoutingModule {}

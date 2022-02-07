@@ -1,19 +1,33 @@
 import { Injectable } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import {
   ActivatedRouteSnapshot,
   CanActivate,
+  CanDeactivate,
   Router,
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable, Subject } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { User } from '../auth/user.model';
 
+export interface CanComponentDeactivate {
+  canDeactivate: () =>
+    | Observable<boolean | UrlTree>
+    | Promise<boolean | UrlTree>
+    | boolean
+    | UrlTree;
+  coinForm: FormGroup;
+  askMessage: string;
+}
 @Injectable({
   providedIn: 'root',
 })
-export class UserGuardService implements CanActivate {
+export class UserGuardService
+  implements CanActivate, CanDeactivate<CanComponentDeactivate>
+{
+  project = new Subject<any>();
   userLogged: User;
   constructor(private authService: AuthService, private router: Router) {}
   canActivate(
@@ -32,5 +46,29 @@ export class UserGuardService implements CanActivate {
     } else {
       this.router.navigate(['/not-found']);
     }
+  }
+  canDeactivate(
+    component: CanComponentDeactivate,
+    currentRoute: ActivatedRouteSnapshot,
+    currentState: RouterStateSnapshot,
+    nextState?: RouterStateSnapshot
+  ):
+    | boolean
+    | UrlTree
+    | Observable<boolean | UrlTree>
+    | Promise<boolean | UrlTree> {
+    //ÇÖZÜM BURADA (ALTERNATİF 1) 2. alternatif user.component.ts dosyasında canDeactivate() methodunda
+    // if (component.coinForm.untouched) {
+    //   return true;
+    // } else {
+    //   component.askMessage = 'are you sure?';
+    //   return this.project.pipe(
+    //     map((data) => {
+    //       return data ? data : false;
+    //     })
+    //   );
+    // }
+    //ÇÖZÜM BURADA (ALTERNATİF 1) 2. alternatif user.component.ts dosyasında canDeactivate() methodunda
+    return component.canDeactivate ? component.canDeactivate() : true;
   }
 }

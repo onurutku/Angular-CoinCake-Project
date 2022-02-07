@@ -19,6 +19,7 @@ import { UsersResolverService } from './users-resolver.service';
         path: '',
         component: UsersComponent,
         canActivate: [AuthGuardService, UserGuardService],
+        canDeactivate: [UserGuardService],
         resolve: { userData: UsersResolverService },
       },
     ]),

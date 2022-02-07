@@ -3,7 +3,11 @@
   <p>{{ message }}</p>
   <div class="alert-box-actions">
     <button class="btn btn-danger btn-sm" (click)="modalSubmit()">
-      Delete
+      {{
+        message == "Are you sure to leave from this page without saving?"
+          ? "Leave"
+          : "Delete"
+      }}
     </button>
     &nbsp;
     <button class="btn btn-secondary btn-sm" (click)="modalCancel()">
