@@ -128,7 +128,8 @@
           <th scope="col">Bought Price(USD)</th>
           <th scope="col">Amount</th>
           <th scope="col">Balance</th>
-          <th>Profit/Loss</th>
+          <th>Profit/Loss($)</th>
+          <th>Profit/Loss(%)</th>
           <th scope="col">Bougth Date</th>
         </tr>
       </thead>
@@ -168,7 +169,26 @@
                 userData.amount * (userData.coinId | currentPrice | async) -
                 userData.bought * userData.amount
               ).toFixed(2)
-            }}$ /
+            }}$
+          </td>
+          <td
+            [ngClass]="{
+              green:
+                (
+                  (((userData.coinId | currentPrice | async) * userData.amount -
+                    userData.bought * userData.amount) *
+                    100) /
+                  (userData.bought * userData.amount)
+                ).toFixed(2) > 0,
+              red:
+                (
+                  (((userData.coinId | currentPrice | async) * userData.amount -
+                    userData.bought * userData.amount) *
+                    100) /
+                  (userData.bought * userData.amount)
+                ).toFixed(2) <= 0
+            }"
+          >
             {{
               (
                 (((userData.coinId | currentPrice | async) * userData.amount -
@@ -179,7 +199,13 @@
             }}%
           </td>
           <td>
-            {{ userData.boughtDate }}
+            {{
+              userData.boughtDate
+                ? userData.boughtDate.substring(0, 10) +
+                  " - " +
+                  userData.boughtDate.substring(10 + 1)
+                : "-"
+            }}
           </td>
           <td>
             <fa-icon
@@ -196,8 +222,8 @@
     </div>
   </div>
 
-  <!-- <div
-    *ngIf="!this.incomingFilterWord"
+  <div
+    *ngIf="usersData.length >= 1"
     class="input-group d-flex justify-content-center"
   >
     <a *ngIf="currentPage != 0" (click)="pageDown()"
@@ -211,5 +237,5 @@
         currentPage + 2
       }}</a
     >
-  </div> -->
+  </div>
 </div>

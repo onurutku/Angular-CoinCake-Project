@@ -23,3 +23,6 @@ th {
 .message span {
   color: white;
 }
+a {
+  cursor: pointer;
+}

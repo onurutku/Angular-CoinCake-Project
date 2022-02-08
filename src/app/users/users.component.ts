@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Data } from '@angular/router';
-import { faPlus, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import {
+  faChevronRight,
+  faChevronLeft,
+  faPlus,
+  faTrashAlt,
+} from '@fortawesome/free-solid-svg-icons';
 import { map, Observable, ReplaySubject } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { User } from '../auth/user.model';
@@ -18,6 +23,8 @@ import { UserService } from './user.service';
 export class UsersComponent implements OnInit {
   faPlus = faPlus;
   faTrashAlt = faTrashAlt;
+  faChevronRight = faChevronRight;
+  faChevronLeft = faChevronLeft;
   userLoggedIn: User;
   coinForm: FormGroup;
   markets: string[] = [];
@@ -32,6 +39,10 @@ export class UsersComponent implements OnInit {
   askMessage: string = null;
   confirmOrCancel: boolean = null;
   willDelete: string = null;
+  totalPage: number;
+  totalPageCeil: number;
+  currentPage: number = 0;
+  willSort = [];
 
   constructor(
     private authService: AuthService,
@@ -41,12 +52,46 @@ export class UsersComponent implements OnInit {
     private userGuard: UserGuardService
   ) {}
   ngOnInit(): void {
-    //fetch users coin data informations from service
+    //fetch users coin data informations from service and pagination
     this.route.data.subscribe((data: Data) => {
-      this.usersData = data['userData'];
+      this.willSort = data['userData'];
+      this.totalPage = data['userData'].length / 10;
+      this.totalPageCeil = Math.ceil(this.totalPage);
+      // this.usersData = data['userData'];
+      for (
+        let i = this.currentPage * 10;
+        i < 10 * (this.currentPage + 1);
+        i++
+      ) {
+        if (i < data['userData'].length) {
+          this.usersData.push(data['userData'][i]);
+        } else {
+          return;
+        }
+      }
     });
+    //to get coin data on each adding time without refreshing subject RxJs
     this.userService.dataChanged.subscribe((data) => {
-      this.getUsersData();
+      if (data === true) {
+        this.userService
+          .getUserData(this.userLoggedIn.password)
+          .subscribe((data) => {
+            this.willSort = data;
+            this.totalPage = data.length / 10;
+            this.totalPageCeil = Math.ceil(this.totalPage);
+            this.initUserData();
+          });
+      } else {
+        this.userService
+          .getUserData(this.userLoggedIn.password)
+          .subscribe((data) => {
+            this.willSort = data;
+            this.totalPage = data.length / 10;
+            this.totalPageCeil = Math.ceil(this.totalPage);
+            this.initUserDataOnDelete();
+          });
+      }
+      this.isLoading = false;
     });
     //fetch market prices for use to show on coin price area
     this.marketsService.getMarketPrices().subscribe((data) => {
@@ -71,13 +116,30 @@ export class UsersComponent implements OnInit {
       this.userLoggedIn = data;
     });
   }
-  //to get coin data on each adding time without refreshing
-  getUsersData() {
-    this.userService
-      .getUserData(this.userLoggedIn.password)
-      .subscribe((data) => {
-        this.usersData = data;
-      });
+  //update page data for pagination when you add coin to list
+  initUserData() {
+    this.usersData = [];
+    for (let i = this.currentPage * 10; i < 10 * (this.currentPage + 1); i++) {
+      if (i < this.willSort.length) {
+        this.usersData.push(this.willSort[i]);
+      } else {
+        return;
+      }
+    }
+  }
+  //update page data for pagination when you delete coin from list
+  initUserDataOnDelete() {
+    if (this.willSort.length > 0 && this.usersData.length <= 1) {
+      this.currentPage--;
+    }
+    this.usersData = [];
+    for (let i = this.currentPage * 10; i < 10 * (this.currentPage + 1); i++) {
+      if (i < this.willSort.length) {
+        this.usersData.push(this.willSort[i]);
+      } else {
+        return;
+      }
+    }
   }
   //reactive form submit
   onSubmit() {
@@ -94,10 +156,7 @@ export class UsersComponent implements OnInit {
         },
       };
       //service side save method
-      this.userService.saveUsersData(userData).subscribe(() => {
-        this.userService.dataChanged.next(true);
-        this.isLoading = false;
-      });
+      this.userService.saveUsersData(userData);
       this.coinForm.reset();
       this.successAdd = true;
       this.errorTimer();
@@ -161,4 +220,17 @@ export class UsersComponent implements OnInit {
     }
   }
   //ALTERNATİF ÇÖZÜM 2 / 1. çözüm user-guard.service.ts dosyasında
+
+  pageUp() {
+    if (this.currentPage < Math.floor(this.totalPage)) {
+      this.currentPage++;
+      this.initUserData();
+    }
+  }
+  pageDown() {
+    if (this.currentPage > 0) {
+      this.currentPage--;
+      this.initUserData();
+    }
+  }
 }
