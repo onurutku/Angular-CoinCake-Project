@@ -107,31 +107,114 @@
 <br />
 <div class="container mt-2">
   <div class="table-responsive">
-    <table class="table table-hover">
+    <table id="inventory-table" class="table table-hover">
       <thead>
         <tr>
-          <th>No.</th>
+          <th class="th-no">No.</th>
           <th scope="col">
-            <!-- <fa-icon
-            (click)="sortBy('name')"
-            *ngIf="!sortCounter || sortCounter === 'ab'"
-            [icon]="faSortAlphaDown"
-          ></fa-icon
-          ><fa-icon
-            (click)="sortBy('name')"
-            *ngIf="sortCounter === 'ba'"
-            [icon]="faSortAlphaDownAlt"
-          ></fa-icon> -->
-            &nbsp; Name
+            <fa-icon
+              (click)="sortBy('coinName')"
+              *ngIf="!sortCounter || sortCounter != 'a'"
+              [icon]="faSortAlphaDown"
+            ></fa-icon
+            ><fa-icon
+              (click)="sortBy('coinName')"
+              *ngIf="sortCounter === 'a'"
+              [icon]="faSortAlphaDownAlt"
+            ></fa-icon
+            >&nbsp; Name
           </th>
-          <th>Market Price</th>
-          <th scope="col">Bought Price(USD)</th>
-          <th scope="col">Amount</th>
-          <th scope="col">Balance</th>
-          <th>Profit/Loss($)</th>
-          <th>Profit/Loss(%)</th>
-          <th scope="col">Bougth Date</th>
-          <th></th>
+          <th class="th-double">
+            <fa-icon
+              [icon]="faSortAmountUp"
+              (click)="sortBy('coinId | currentPrice | async')"
+              *ngIf="!sortCounter || sortCounter != 'b'"
+            ></fa-icon>
+            <fa-icon
+              [icon]="faSortAmountDown"
+              (click)="sortBy('coinId | currentPrice | async')"
+              *ngIf="sortCounter === 'b'"
+            ></fa-icon
+            >Market Price
+          </th>
+          <th class="th-double" scope="col">
+            <fa-icon
+              [icon]="faSortAmountUp"
+              (click)="sortBy('bought')"
+              *ngIf="!sortCounter || sortCounter != 'c'"
+            ></fa-icon>
+            <fa-icon
+              [icon]="faSortAmountDown"
+              (click)="sortBy('bought')"
+              *ngIf="sortCounter === 'c'"
+            ></fa-icon
+            >Bought Price
+          </th>
+          <th scope="col">
+            <fa-icon
+              [icon]="faSortAmountUp"
+              (click)="sortBy('amount')"
+              *ngIf="!sortCounter || sortCounter != 'd'"
+            ></fa-icon>
+            <fa-icon
+              [icon]="faSortAmountDown"
+              (click)="sortBy('amount')"
+              *ngIf="sortCounter === 'd'"
+            ></fa-icon
+            >Amount
+          </th>
+          <th scope="col">
+            <fa-icon
+              [icon]="faSortAmountUp"
+              (click)="sortBy('balance')"
+              *ngIf="!sortCounter || sortCounter != 'e'"
+            ></fa-icon>
+            <fa-icon
+              [icon]="faSortAmountDown"
+              (click)="sortBy('balance')"
+              *ngIf="sortCounter === 'e'"
+            ></fa-icon
+            >Balance
+          </th>
+          <th class="th-pfloss">
+            <fa-icon
+              [icon]="faSortAmountUp"
+              (click)="sortBy('pldollar')"
+              *ngIf="!sortCounter || sortCounter != 'f'"
+            ></fa-icon>
+            <fa-icon
+              [icon]="faSortAmountDown"
+              (click)="sortBy('pldollar')"
+              *ngIf="sortCounter === 'f'"
+            ></fa-icon
+            >Profit/Loss($)
+          </th>
+          <th class="th-pfloss">
+            <fa-icon
+              [icon]="faSortAmountUp"
+              (click)="sortBy('plpercent')"
+              *ngIf="!sortCounter || sortCounter != 'g'"
+            ></fa-icon>
+            <fa-icon
+              [icon]="faSortAmountDown"
+              (click)="sortBy('plpercent')"
+              *ngIf="sortCounter === 'g'"
+            ></fa-icon
+            >Profit/Loss(%)
+          </th>
+          <th class="th-double" scope="col">
+            <fa-icon
+              [icon]="faSortAmountUp"
+              (click)="sortBy('date')"
+              *ngIf="!sortCounter || sortCounter != 'h'"
+            ></fa-icon>
+            <fa-icon
+              [icon]="faSortAmountDown"
+              (click)="sortBy('date')"
+              *ngIf="sortCounter === 'h'"
+            ></fa-icon
+            >Bougth Date
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -145,16 +228,15 @@
           <td>
             {{ userData.coinName }}
           </td>
-          <td>{{ userData.coinId | currentPrice | async }} $</td>
-          <td>{{ userData.bought }}</td>
+          <td>{{ userData.coinId | currentPrice | async }}$</td>
+          <td>{{ userData.bought }}$</td>
           <td>{{ userData.amount }}</td>
           <td>
             {{
               (
                 userData.amount * (userData.coinId | currentPrice | async)
               ).toFixed(2)
-            }}
-            $
+            }}$
           </td>
           <td
             [ngClass]="{

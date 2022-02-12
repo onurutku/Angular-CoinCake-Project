@@ -5,10 +5,14 @@
       [routerLink]="['/markets']"
     >
       <div>
-        <fa-icon [icon]="faChartPie"></fa-icon>
+        <fa-icon (click)="reload()" [icon]="faChartPie"></fa-icon>
       </div>
       <div class="ms-3">
-        <span class="align-self-center" id="logo" class="mb-5"> COINCAKE</span>
+        <a (click)="reload()">
+          <span class="align-self-center" id="logo" class="mb-5">
+            COINCAKE</span
+          >
+        </a>
       </div>
     </a>
     <button

@@ -4,6 +4,7 @@ fa-icon.delete {
 }
 fa-icon {
   color: blue;
+  cursor: pointer;
 }
 .green {
   color: green;
@@ -17,12 +18,24 @@ select.ng-invalid.ng-touched {
 input.ng-invalid.ng-touched {
   border: 1px solid red;
 }
-th {
-  min-width: 100px;
-}
 .message span {
   color: white;
 }
 a {
   cursor: pointer;
+}
+.th-no {
+  min-width: 0px;
+}
+.th-pfloss {
+  min-width: 115px;
+}
+th {
+  min-width: 100px;
+}
+.th-double {
+  min-width: 110px;
+}
+#inventory-table {
+  font-size: 12px;
 }

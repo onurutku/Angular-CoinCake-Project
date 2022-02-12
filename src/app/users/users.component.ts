@@ -6,6 +6,10 @@ import {
   faChevronLeft,
   faPlus,
   faTrashAlt,
+  faSortAlphaDown,
+  faSortAlphaDownAlt,
+  faSortAmountUp,
+  faSortAmountDown,
 } from '@fortawesome/free-solid-svg-icons';
 import { map, Observable, ReplaySubject, Subscription } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
@@ -25,6 +29,10 @@ export class UsersComponent implements OnInit {
   faTrashAlt = faTrashAlt;
   faChevronRight = faChevronRight;
   faChevronLeft = faChevronLeft;
+  faSortAlphaDown = faSortAlphaDown;
+  faSortAlphaDownAlt = faSortAlphaDownAlt;
+  faSortAmountUp = faSortAmountUp;
+  faSortAmountDown = faSortAmountDown;
   userLoggedIn: User;
   coinForm: FormGroup;
   markets: string[] = [];
@@ -45,6 +53,7 @@ export class UsersComponent implements OnInit {
   willSort = [];
   t = null;
   incomingFilterWord: string;
+  sortCounter: string;
 
   constructor(
     private authService: AuthService,
@@ -257,10 +266,52 @@ export class UsersComponent implements OnInit {
       this.initUserData();
     }
   }
-
   initfilterMarketData() {
     this.marketsService.getMarketPrices().subscribe((data) => {
       this.markets = data;
     });
+  }
+  sortBy(what: string) {
+    if (!this.sortCounter) {
+      this.willSort.sort((a, b) => {
+        if (a[what] > b[what]) return 1;
+        if (a[what] < b[what]) return -1;
+        return 0;
+      });
+      switch (what) {
+        case 'coinName':
+          this.sortCounter = 'a';
+          break;
+        case 'coinId | currentPrice | async':
+          this.sortCounter = 'b';
+          break;
+        case 'bought':
+          this.sortCounter = 'c';
+          break;
+        case 'amount':
+          this.sortCounter = 'd';
+          break;
+        case 'balance':
+          this.sortCounter = 'e';
+          break;
+        case 'pldollar':
+          this.sortCounter = 'f';
+          break;
+        case 'plpercent':
+          this.sortCounter = 'g';
+          break;
+        case 'date':
+          this.sortCounter = 'h';
+          break;
+      }
+    } else {
+      this.willSort.sort((a, b) => {
+        if (a[what] > b[what]) return -1;
+        if (a[what] < b[what]) return 1;
+        return 0;
+      });
+      this.sortCounter = '';
+    }
+    this.initUserData();
   }
 }

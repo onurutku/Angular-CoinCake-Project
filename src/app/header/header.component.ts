@@ -55,4 +55,10 @@ export class HeaderComponent implements OnInit {
       }
     });
   }
+  reload() {
+    this.router.navigate(['/markets']);
+    if (this.location.path() == '/markets') {
+      window.location.reload();
+    }
+  }
 }
