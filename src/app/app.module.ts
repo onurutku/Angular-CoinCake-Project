@@ -26,6 +26,7 @@ import { MarketsModule } from './markets/markets.module';
 import { AuthModule } from './auth/auth.module';
 import { SharedModule } from './shared/shared.module';
 import { EditProfileModule } from './users/edit-profile/edit-profile.module';
+import { FooterComponent } from './footer/footer.component';
 
 //Users Module
 // import { CurrentPricePipe } from './users/current-price.pipe';
@@ -47,7 +48,7 @@ import { EditProfileModule } from './users/edit-profile/edit-profile.module';
 // import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, HeaderComponent],
+  declarations: [AppComponent, HomeComponent, HeaderComponent, FooterComponent],
   imports: [
     BrowserModule,
     FontAwesomeModule,

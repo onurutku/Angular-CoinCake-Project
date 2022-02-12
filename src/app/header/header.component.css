@@ -7,6 +7,9 @@ a {
   cursor: pointer;
   color: white;
 }
+a:hover {
+  transition: ease 500ms;
+}
 #logo {
   font-family: "Shizuru", cursive;
   font-weight: bold;
