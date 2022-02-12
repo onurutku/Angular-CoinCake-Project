@@ -28,6 +28,7 @@ export class UserGuardService
   implements CanActivate, CanDeactivate<CanComponentDeactivate>
 {
   project = new Subject<any>();
+  // project = new BehaviorSubject<boolean>(null);
   userLogged: User;
   constructor(private authService: AuthService, private router: Router) {}
   canActivate(

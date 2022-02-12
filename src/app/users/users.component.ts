@@ -7,7 +7,7 @@ import {
   faPlus,
   faTrashAlt,
 } from '@fortawesome/free-solid-svg-icons';
-import { map, Observable, ReplaySubject } from 'rxjs';
+import { map, Observable, ReplaySubject, Subscription } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { User } from '../auth/user.model';
 import { MarketsService } from '../markets/markets.service';
@@ -43,6 +43,8 @@ export class UsersComponent implements OnInit {
   totalPageCeil: number;
   currentPage: number = 0;
   willSort = [];
+  t = null;
+  incomingFilterWord: string;
 
   constructor(
     private authService: AuthService,
@@ -82,14 +84,16 @@ export class UsersComponent implements OnInit {
             this.initUserData();
           });
       } else {
-        this.userService
-          .getUserData(this.userLoggedIn.password)
-          .subscribe((data) => {
-            this.willSort = data;
-            this.totalPage = data.length / 10;
-            this.totalPageCeil = Math.ceil(this.totalPage);
-            this.initUserDataOnDelete();
-          });
+        if (this.userLoggedIn) {
+          this.userService
+            .getUserData(this.userLoggedIn.password)
+            .subscribe((data) => {
+              this.willSort = data;
+              this.totalPage = data.length / 10;
+              this.totalPageCeil = Math.ceil(this.totalPage);
+              this.initUserDataOnDelete();
+            });
+        }
       }
       this.isLoading = false;
     });
@@ -114,6 +118,21 @@ export class UsersComponent implements OnInit {
     //getting data from authService to know who is logged in to fetch his/her coin information from ID
     this.authService.user.subscribe((data) => {
       this.userLoggedIn = data;
+    });
+    this.marketsService.search.subscribe((data) => {
+      this.incomingFilterWord = data;
+      if (this.incomingFilterWord) {
+        this.userService
+          .getUserData(this.userLoggedIn.password)
+          .subscribe((data) => {
+            this.usersData = data;
+            // this.totalPage = data.length / 10;
+            // this.totalPageCeil = Math.ceil(this.totalPage);
+            // this.initUserData();
+          });
+      } else {
+        this.initUserData();
+      }
     });
   }
   //update page data for pagination when you add coin to list
@@ -158,8 +177,11 @@ export class UsersComponent implements OnInit {
       //service side save method
       this.userService.saveUsersData(userData);
       this.coinForm.reset();
+      if (this.successAdd) {
+        clearTimeout(this.t);
+      }
       this.successAdd = true;
-      this.errorTimer();
+      this.errorTimer(3000);
     } else {
       if (this.coinForm.get('coin').invalid) {
         this.invalidSelect = true;
@@ -168,17 +190,17 @@ export class UsersComponent implements OnInit {
       } else if (this.coinForm.get('bought').invalid) {
         this.invalidBought = true;
       }
-      this.errorTimer();
+      this.errorTimer(3000);
     }
   }
-  errorTimer() {
-    setTimeout(() => {
+  errorTimer(time: number) {
+    this.t = setTimeout(() => {
       this.invalidAmount = false;
       this.invalidBought = false;
       this.invalidSelect = false;
       this.successAdd = false;
       this.deleted = null;
-    }, 3000);
+    }, time);
   }
   //html get current price for each coin in users list
   currentPrice(name: string) {
@@ -196,12 +218,14 @@ export class UsersComponent implements OnInit {
   //delete coin from users coinlist
   receiveMessage($event) {
     this.confirmOrCancel = $event.cond;
+    this.userGuard.project.next($event.cond);
     if (this.confirmOrCancel) {
-      this.userService.deleteData(this.userLoggedIn.password, $event.id);
-      this.deleted = 'Successfully deleted';
-      this.askMessage = null;
-      this.errorTimer();
-      this.userGuard.project.next(this.confirmOrCancel);
+      if (this.userLoggedIn) {
+        this.userService.deleteData(this.userLoggedIn.password, $event.id);
+        this.deleted = 'Successfully deleted';
+        this.askMessage = null;
+        this.errorTimer(3000);
+      }
     } else {
       this.askMessage = null;
     }
@@ -232,5 +256,11 @@ export class UsersComponent implements OnInit {
       this.currentPage--;
       this.initUserData();
     }
+  }
+
+  initfilterMarketData() {
+    this.marketsService.getMarketPrices().subscribe((data) => {
+      this.markets = data;
+    });
   }
 }

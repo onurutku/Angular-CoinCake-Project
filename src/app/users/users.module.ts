@@ -10,9 +10,10 @@ import { SharedModule } from '../shared/shared.module';
 import { AuthGuardService } from '../auth/auth-guard.service';
 import { UserGuardService } from './user-guard.service';
 import { UsersResolverService } from './users-resolver.service';
+import { SearchPipe } from './inventory-search.pipe';
 
 @NgModule({
-  declarations: [UsersComponent, CurrentPricePipe],
+  declarations: [UsersComponent, CurrentPricePipe, SearchPipe],
   imports: [
     RouterModule.forChild([
       {
@@ -29,6 +30,6 @@ import { UsersResolverService } from './users-resolver.service';
     FontAwesomeModule,
     SharedModule,
   ],
-  exports: [UsersComponent, CurrentPricePipe],
+  exports: [UsersComponent, CurrentPricePipe, SearchPipe],
 })
 export class UsersModule {}

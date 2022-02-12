@@ -134,7 +134,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let userData of usersData; let i = index">
+        <tr
+          *ngFor="
+            let userData of usersData | search: incomingFilterWord;
+            let i = index
+          "
+        >
           <td>{{ i + 1 }}</td>
           <td>
             {{ userData.coinName }}
@@ -223,7 +228,7 @@
   </div>
 
   <div
-    *ngIf="usersData.length >= 1"
+    *ngIf="usersData.length >= 1 && !incomingFilterWord"
     class="input-group d-flex justify-content-center"
   >
     <a *ngIf="currentPage != 0" (click)="pageDown()"

@@ -82,9 +82,9 @@ export class AuthService {
       this.errorMessage.next(error.message);
     }
   }
+
   logout() {
     sessionStorage.removeItem('user');
-    this.router.navigate(['/auth']);
     this.user.next(null);
   }
   autoLogin() {

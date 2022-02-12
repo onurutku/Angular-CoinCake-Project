@@ -1,9 +1,10 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { faChartPie, faBars } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from '../auth/auth.service';
 import { User } from '../auth/user.model';
 import { MarketsService } from '../markets/markets.service';
-// import { UserService } from '../users/user.service';
 
 interface UserData {
   email: string;
@@ -18,6 +19,7 @@ export class HeaderComponent implements OnInit {
   filterWord: string;
   isCollapsed = false;
   userLoggedIn: User;
+  navigate: boolean;
   // userData = <UserData>{
   //   email: '',
   //   username: '',
@@ -27,7 +29,9 @@ export class HeaderComponent implements OnInit {
   faBars = faBars;
   constructor(
     private authService: AuthService,
-    private marketsService: MarketsService
+    private marketsService: MarketsService,
+    private router: Router,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
@@ -43,7 +47,12 @@ export class HeaderComponent implements OnInit {
   onKeyUp() {
     this.marketsService.search.next(this.filterWord);
   }
+  //yeni bir method tanımla ve onu trigger et!
   onLogout() {
-    this.authService.logout();
+    this.router.navigate(['/auth']).then(() => {
+      if (this.location.path() == '/auth') {
+        this.authService.logout();
+      }
+    });
   }
 }
