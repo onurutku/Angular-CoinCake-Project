@@ -12,6 +12,7 @@ export class AppComponent implements OnInit {
   title = 'CoinCake';
   faCopyright = faCopyright;
   user: User = null;
+
   constructor(private authService: AuthService) {}
   ngOnInit(): void {
     this.authService.autoLogin();

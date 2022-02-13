@@ -15,8 +15,11 @@ a:hover {
   font-weight: bold;
 }
 nav {
-  width: 100vw;
+  width: 100%;
 }
 .dropdown-item {
   color: black;
+}
+.sticky {
+  background-color: #3fbdde;
 }

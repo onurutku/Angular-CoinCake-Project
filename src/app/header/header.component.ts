@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { faChartPie, faBars } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from '../auth/auth.service';
@@ -20,13 +20,22 @@ export class HeaderComponent implements OnInit {
   isCollapsed = false;
   userLoggedIn: User;
   navigate: boolean;
+  isScroll: boolean;
+
   // userData = <UserData>{
   //   email: '',
   //   username: '',
   // };
-
   faChartPie = faChartPie;
   faBars = faBars;
+
+  @HostListener('window:scroll') onScroll(e: Event): void {
+    if (window.scrollY >= 35) {
+      this.isScroll = true;
+    } else {
+      this.isScroll = false;
+    }
+  }
   constructor(
     private authService: AuthService,
     private marketsService: MarketsService,
@@ -44,6 +53,7 @@ export class HeaderComponent implements OnInit {
     //     this.userData = data;
     //   });
   }
+
   onKeyUp() {
     this.marketsService.search.next(this.filterWord);
   }
