@@ -1,0 +1,8 @@
+#dynamic-body {
+  position: relative;
+  min-height: 500px;
+}
+#full-body {
+  /* background: linear-gradient(to left top, #ffd89b, #19547b); */
+  background: linear-gradient(to left top, #5b86e5, #36d1dc);
+}

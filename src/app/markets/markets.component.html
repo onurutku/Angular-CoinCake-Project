@@ -1,5 +1,5 @@
 <div class="container mt-4">
-  <div class="table-responsive">
+  <div class="table-responsive height">
     <table id="market-table" class="table table-hover">
       <thead>
         <tr>
@@ -94,21 +94,21 @@
         </tr>
       </tbody>
     </table>
-    <div
-      *ngIf="!this.incomingFilterWord"
-      class="input-group d-flex justify-content-center mb-5"
-    >
-      <a *ngIf="currentPage != 0" (click)="pageDown()"
-        >{{ currentPage }}&nbsp; &nbsp;<fa-icon [icon]="faChevronLeft"></fa-icon
-      ></a>
+  </div>
+  <div
+    *ngIf="!this.incomingFilterWord"
+    class="input-group d-flex justify-content-center mb-5"
+  >
+    <a *ngIf="currentPage != 0" (click)="pageDown()"
+      >{{ currentPage }}&nbsp; &nbsp;<fa-icon [icon]="faChevronLeft"></fa-icon
+    ></a>
 
-      &nbsp; &nbsp;
-      <span>{{ currentPage + 1 }} of {{ totalPageCeil }}</span> &nbsp; &nbsp;
-      <a *ngIf="currentPage < totalPage - 1" (click)="pageUp()"
-        ><fa-icon [icon]="faChevronRight"></fa-icon>&nbsp; &nbsp;{{
-          currentPage + 2
-        }}</a
-      >
-    </div>
+    &nbsp; &nbsp;
+    <span>{{ currentPage + 1 }} of {{ totalPageCeil }}</span> &nbsp; &nbsp;
+    <a *ngIf="currentPage < totalPage - 1" (click)="pageUp()"
+      ><fa-icon [icon]="faChevronRight"></fa-icon>&nbsp; &nbsp;{{
+        currentPage + 2
+      }}</a
+    >
   </div>
 </div>
