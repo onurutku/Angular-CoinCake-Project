@@ -22,4 +22,5 @@ nav {
 }
 .sticky {
   background-color: #3fbdde;
+  transition: ease-in 250ms;
 }
