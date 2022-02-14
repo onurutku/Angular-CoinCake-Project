@@ -56,6 +56,12 @@ export class UsersComponent implements OnInit {
   incomingFilterWord: string;
   sortCounter: string;
   errorOccured: string = null;
+  dateNow: string = `${new Date().getFullYear()}-${(new Date().getMonth() + 1)
+    .toString()
+    .padStart(2, '0')}-${new Date()
+    .getDate()
+    .toString()
+    .padStart(2, '0')}T${new Date().getHours()}:${new Date().getMinutes()}`;
 
   constructor(
     private authService: AuthService,
@@ -118,18 +124,20 @@ export class UsersComponent implements OnInit {
       this.markets = data;
     });
     //date now for calendar placeholder
-    const dateNow = `${new Date().getFullYear()}-${(new Date().getMonth() + 1)
-      .toString()
-      .padStart(2, '0')}-${new Date()
-      .getDate()
-      .toString()
-      .padStart(2, '0')}T${new Date().getHours()}:${new Date().getMinutes()}`;
+
+    // this.dateNow = `${new Date().getFullYear()}-${(new Date().getMonth() + 1)
+    //   .toString()
+    //   .padStart(2, '0')}-${new Date()
+    //   .getDate()
+    //   .toString()
+    //   .padStart(2, '0')}T${new Date().getHours()}:${new Date().getMinutes()}`;
+
     //reactive form adding coins
     this.coinForm = new FormGroup({
       coin: new FormControl(null, Validators.required),
       amount: new FormControl(null, [Validators.required, Validators.min(0)]),
       bought: new FormControl(null, [Validators.required, Validators.min(0)]),
-      boughtDate: new FormControl(dateNow),
+      boughtDate: new FormControl(this.dateNow),
     });
     //getting data from authService to know who is logged in to fetch his/her coin information from ID
     this.authService.user.subscribe((data) => {
@@ -196,6 +204,7 @@ export class UsersComponent implements OnInit {
           this.userService.dataChanged.next(true);
           this.successAdd = true;
           this.coinForm.reset();
+          this.coinForm.get('boughtDate').setValue(this.dateNow);
         },
         (error) => {
           this.errorOccured = `${error.status}-${error.statusText}`;
