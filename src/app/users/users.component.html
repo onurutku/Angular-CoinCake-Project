@@ -70,6 +70,11 @@
   <div class="message mt-2" *ngIf="successAdd">
     <span class="help-block bg-success">Successfully Added!</span>
   </div>
+  <div class="message mt-2" *ngIf="errorOccured != null">
+    <span class="help-block bg-danger"
+      >An Error Occured! Please try again-{{ errorOccured }}</span
+    >
+  </div>
   <div class="message mt-2" *ngIf="deleted">
     <span class="help-block bg-success">{{ deleted }}</span>
   </div>

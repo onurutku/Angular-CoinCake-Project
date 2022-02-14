@@ -1,3 +1,4 @@
+import { error } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Data } from '@angular/router';
@@ -54,6 +55,7 @@ export class UsersComponent implements OnInit {
   t = null;
   incomingFilterWord: string;
   sortCounter: string;
+  errorOccured: string = null;
 
   constructor(
     private authService: AuthService,
@@ -82,30 +84,35 @@ export class UsersComponent implements OnInit {
       }
     });
     //to get coin data on each adding time without refreshing subject RxJs
-    this.userService.dataChanged.subscribe((data) => {
-      if (data === true) {
-        this.userService
-          .getUserData(this.userLoggedIn.password)
-          .subscribe((data) => {
-            this.willSort = data;
-            this.totalPage = data.length / 10;
-            this.totalPageCeil = Math.ceil(this.totalPage);
-            this.initUserData();
-          });
-      } else {
-        if (this.userLoggedIn) {
+    this.userService.dataChanged.subscribe(
+      (data) => {
+        if (data === true) {
           this.userService
             .getUserData(this.userLoggedIn.password)
             .subscribe((data) => {
               this.willSort = data;
               this.totalPage = data.length / 10;
               this.totalPageCeil = Math.ceil(this.totalPage);
-              this.initUserDataOnDelete();
+              this.initUserData();
             });
+        } else {
+          if (this.userLoggedIn) {
+            this.userService
+              .getUserData(this.userLoggedIn.password)
+              .subscribe((data) => {
+                this.willSort = data;
+                this.totalPage = data.length / 10;
+                this.totalPageCeil = Math.ceil(this.totalPage);
+                this.initUserDataOnDelete();
+              });
+          }
         }
+        this.isLoading = false;
+      },
+      (error) => {
+        console.log(error);
       }
-      this.isLoading = false;
-    });
+    );
     //fetch market prices for use to show on coin price area
     this.marketsService.getMarketPrices().subscribe((data) => {
       this.markets = data;
@@ -184,12 +191,20 @@ export class UsersComponent implements OnInit {
         },
       };
       //service side save method
-      this.userService.saveUsersData(userData);
-      this.coinForm.reset();
+      this.userService.saveUsersData(userData).subscribe(
+        (data) => {
+          this.userService.dataChanged.next(true);
+          this.successAdd = true;
+          this.coinForm.reset();
+        },
+        (error) => {
+          this.errorOccured = `${error.status}-${error.statusText}`;
+          console.log(error);
+        }
+      );
       if (this.successAdd) {
         clearTimeout(this.t);
       }
-      this.successAdd = true;
       this.errorTimer(3000);
     } else {
       if (this.coinForm.get('coin').invalid) {
@@ -209,6 +224,7 @@ export class UsersComponent implements OnInit {
       this.invalidSelect = false;
       this.successAdd = false;
       this.deleted = null;
+      this.isLoading = false;
     }, time);
   }
   //html get current price for each coin in users list
@@ -230,8 +246,19 @@ export class UsersComponent implements OnInit {
     this.userGuard.project.next($event.cond);
     if (this.confirmOrCancel) {
       if (this.userLoggedIn) {
-        this.userService.deleteData(this.userLoggedIn.password, $event.id);
-        this.deleted = 'Successfully deleted';
+        this.isLoading = true;
+        this.userService
+          .deleteData(this.userLoggedIn.password, $event.id)
+          .subscribe(
+            () => {
+              this.userService.dataChanged.next(false);
+              this.deleted = 'Successfully deleted';
+              this.isLoading = false;
+            },
+            (error) => {
+              this.errorOccured = `${error.status}-${error.statusText}`;
+            }
+          );
         this.askMessage = null;
         this.errorTimer(3000);
       }

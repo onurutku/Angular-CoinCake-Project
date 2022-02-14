@@ -31,6 +31,7 @@ export class MarketsComponent implements OnInit, OnDestroy {
   filterSubs: Subscription;
   totalPageCeil: number;
   sortCounter: string;
+  errorMessage: string = null;
 
   constructor(
     private marketsService: MarketsService,

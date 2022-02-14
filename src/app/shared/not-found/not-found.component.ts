@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MarketsService } from 'src/app/markets/markets.service';
 
 @Component({
   selector: 'app-not-found',
@@ -9,20 +10,28 @@ import { Router } from '@angular/router';
 export class NotFoundComponent implements OnInit {
   displayTimer: number;
   interval: any;
-  constructor(private router: Router) {}
+  marketsDataError: string = null;
+  constructor(private router: Router, private marketsService: MarketsService) {}
 
-  ngOnInit(): void {
-    this.redirectTimer();
+  ngOnInit() {
+    this.marketsService.errorMsg.subscribe((msg) => {
+      console.warn(msg);
+      this.marketsDataError = msg;
+      console.warn(typeof this.marketsDataError);
+    });
+    if (this.marketsDataError == null) {
+      this.redirectTimer();
+    }
   }
   redirectTimer() {
     let time = 4;
     this.interval = setInterval(() => {
       if (time > 1) {
         time--;
-        console.log(time);
         this.displayTimer = time;
       } else {
         clearInterval(this.interval);
+        // this.redirectTimer();
         this.router.navigate(['/']);
       }
     }, 1000);

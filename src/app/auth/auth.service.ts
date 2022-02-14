@@ -80,6 +80,7 @@ export class AuthService {
       }
     } catch (error) {
       this.errorMessage.next(error.message);
+      this.router.navigate(['/auth']);
     }
   }
 
@@ -108,6 +109,7 @@ export class AuthService {
   autoLogout(timer: number) {
     setTimeout(() => {
       this.logout();
+      this.router.navigate(['/auth']);
     }, timer);
   }
   resetPassword(email: string) {

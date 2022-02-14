@@ -19,16 +19,12 @@ export class UserService {
   dataChanged = new Subject<boolean>();
   constructor(private http: HttpClient) {}
   saveUsersData(userData: UserData) {
-    this.http
-      .post<UserDataResponse>(
-        'https://course-app-onur-default-rtdb.europe-west1.firebasedatabase.app/userData/' +
-          userData.id +
-          '.json',
-        userData.coin
-      )
-      .subscribe((data) => {
-        this.dataChanged.next(true);
-      });
+    return this.http.post<UserDataResponse>(
+      'https://course-app-onur-default-rtdb.europe-west1.firebasedatabase.app/userData/' +
+        userData.id +
+        '.json',
+      userData.coin
+    );
   }
   getUserData(id: string) {
     return this.http
@@ -50,16 +46,12 @@ export class UserService {
       );
   }
   deleteData(userId: string, id: string) {
-    this.http
-      .delete(
-        'https://course-app-onur-default-rtdb.europe-west1.firebasedatabase.app/userData/' +
-          userId +
-          '/' +
-          id +
-          '.json'
-      )
-      .subscribe(() => {
-        this.dataChanged.next(false);
-      });
+    return this.http.delete(
+      'https://course-app-onur-default-rtdb.europe-west1.firebasedatabase.app/userData/' +
+        userId +
+        '/' +
+        id +
+        '.json'
+    );
   }
 }
