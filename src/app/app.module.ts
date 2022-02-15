@@ -15,6 +15,8 @@ import { HeaderComponent } from './header/header.component';
 import { environment } from 'src/environments/environment';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { UserService } from './users/user.service';
 import { UserGuardService } from './users/user-guard.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -27,6 +29,7 @@ import { AuthModule } from './auth/auth.module';
 import { SharedModule } from './shared/shared.module';
 import { EditProfileModule } from './users/edit-profile/edit-profile.module';
 import { FooterComponent } from './footer/footer.component';
+import { EditProfileService } from './users/edit-profile/edit-profile.service';
 
 //Users Module
 // import { CurrentPricePipe } from './users/current-price.pipe';
@@ -59,6 +62,8 @@ import { FooterComponent } from './footer/footer.component';
     HttpClientModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
+    AngularFireStorageModule,
+    AngularFireDatabaseModule,
     NgbModule,
     UsersModule,
     MarketsModule,
@@ -75,6 +80,7 @@ import { FooterComponent } from './footer/footer.component';
     UsersResolverService,
     MarketsService,
     MarketsResolverService,
+    EditProfileService,
   ],
   bootstrap: [AppComponent],
 })

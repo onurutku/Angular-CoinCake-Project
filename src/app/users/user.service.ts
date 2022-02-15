@@ -22,7 +22,7 @@ export class UserService {
     return this.http.post<UserDataResponse>(
       'https://course-app-onur-default-rtdb.europe-west1.firebasedatabase.app/userData/' +
         userData.id +
-        '.json',
+        '/userCoins.json',
       userData.coin
     );
   }
@@ -31,7 +31,7 @@ export class UserService {
       .get<UserDataResponse>(
         'https://course-app-onur-default-rtdb.europe-west1.firebasedatabase.app/userData/' +
           id +
-          '.json'
+          '/userCoins.json'
       )
       .pipe(
         map((responseData) => {
@@ -49,7 +49,7 @@ export class UserService {
     return this.http.delete(
       'https://course-app-onur-default-rtdb.europe-west1.firebasedatabase.app/userData/' +
         userId +
-        '/' +
+        '/userCoins/' +
         id +
         '.json'
     );
