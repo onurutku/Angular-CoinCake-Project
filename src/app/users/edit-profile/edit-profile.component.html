@@ -2,95 +2,123 @@
   <div class="row d-flex justify-content-center">
     <div class="col-md-6 mt-4">
       <form [formGroup]="userPersonalInfo" (submit)="onSubmit()">
-        <div class="form-group d-flex justify-content-center">
+        <fieldset [disabled]="isDisabled">
           <div class="form-group d-flex justify-content-center">
-            <img
-              [src]="
-                imageSrc ||
-                'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
-              "
-              alt="pp"
-              class="rounded-circle"
-            />
-            <a (click)="fileInput.click()"
-              ><fa-icon [icon]="faCamera"></fa-icon
-            ></a>
+            <div class="form-group d-flex justify-content-center">
+              <img
+                [src]="
+                  imageSrc ||
+                  'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
+                "
+                alt="pp"
+                class="rounded-circle"
+              />
+              <a (click)="fileInput.click()"
+                ><fa-icon [icon]="faCamera"></fa-icon
+              ></a>
+            </div>
           </div>
-        </div>
-        <div class="form-group">
-          <!-- <label for="file">Profile Picture</label> -->
-          <input
-            style="display: none"
-            class="form-control"
-            type="file"
-            (change)="readURL($event)"
-            accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*"
-            #fileInput
-          />
-        </div>
-        <div class="form-group">
-          <label for="name">Name</label>
-          <input
-            class="form-control"
-            type="text"
-            [formControlName]="'firstName'"
-          />
-        </div>
-        <div class="form-group">
-          <label for="surname">Surname</label>
-          <input
-            class="form-control"
-            type="text"
-            [formControlName]="'surName'"
-          />
-        </div>
-        <div class="form-group">
-          <label for="birthdate">Birth Date</label>
-          <input
-            class="form-control"
-            type="date"
-            [formControlName]="'birthDate'"
-          />
-        </div>
-        <div class="form-group">
-          <label for="gender">Gender</label>
-          <div class="form-check">
+          <div class="form-group">
+            <!-- <label for="file">Profile Picture</label> -->
             <input
-              class="form-check-input"
-              name="gender"
-              value="male"
-              type="radio"
-              [formControlName]="'gender'"
+              style="display: none"
+              class="form-control"
+              type="file"
+              (change)="readURL($event)"
+              accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*"
+              #fileInput
             />
-            <label class="form-check-label"> Male </label>
           </div>
-          <div class="form-check">
+          <div class="form-group">
+            <label for="name">Name</label>
             <input
-              class="form-check-input"
-              name="gender"
-              type="radio"
-              value="female"
-              [formControlName]="'gender'"
+              class="form-control"
+              type="text"
+              [formControlName]="'firstName'"
             />
-            <label class="form-check-label"> Female </label>
           </div>
-          <div class="form-check">
+          <div class="form-group">
+            <label for="surname">Surname</label>
             <input
-              class="form-check-input"
-              name="gender"
-              type="radio"
-              value="dwtshare"
-              [formControlName]="'gender'"
+              class="form-control"
+              type="text"
+              [formControlName]="'surName'"
             />
-            <label class="form-check-label"> Don't want to share </label>
           </div>
-        </div>
-        <div class="form-group">
-          <label for="surname">About Yourself</label>
-          <textarea class="form-control" [formControlName]="'about'"></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary btn-sm float-end mt-3">
+          <div class="form-group">
+            <label for="birthdate">Birth Date</label>
+            <input
+              class="form-control"
+              type="date"
+              [formControlName]="'birthDate'"
+            />
+          </div>
+          <div class="form-group">
+            <label for="gender">Gender</label>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                name="gender"
+                value="male"
+                type="radio"
+                [formControlName]="'gender'"
+              />
+              <label class="form-check-label"> Male </label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                name="gender"
+                type="radio"
+                value="female"
+                [formControlName]="'gender'"
+              />
+              <label class="form-check-label"> Female </label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                name="gender"
+                type="radio"
+                value="dwtshare"
+                [formControlName]="'gender'"
+              />
+              <label class="form-check-label"> Don't want to share </label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="surname">About Yourself</label>
+            <textarea
+              class="form-control"
+              [formControlName]="'about'"
+            ></textarea>
+          </div>
+          <div
+            *ngIf="isSubmit"
+            class="help-block bg-success mt-2 rounded p-1 text-white"
+          >
+            Successfully Saved!
+          </div>
+          <div
+            *ngIf="isSubmit == false"
+            class="help-block bg-success mt-2 rounded p-1 text-white"
+          >
+            An Error Occured.Try Again!
+          </div>
+        </fieldset>
+        <button
+          [disabled]="isDisabled"
+          type="submit"
+          class="btn btn-primary btn-sm float-end mt-3"
+        >
           Save
+        </button>
+        <button
+          type="button"
+          (click)="onEdit()"
+          class="btn btn-warning btn-sm mt-3 me-3 float-end"
+        >
+          Edit
         </button>
       </form>
     </div>

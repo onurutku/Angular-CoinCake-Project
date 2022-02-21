@@ -16,6 +16,8 @@ export class EditProfileComponent implements OnInit {
   selectedFile: File = null;
   userLoggedIn: User;
   userPersonalInfo: FormGroup;
+  isDisabled: string = null;
+  isSubmit: boolean = null;
   constructor(
     private editProfileService: EditProfileService,
     private authService: AuthService
@@ -55,8 +57,24 @@ export class EditProfileComponent implements OnInit {
     };
     this.editProfileService.upload(
       this.userLoggedIn,
-      this.selectedFile,
-      userInformation
+      userInformation,
+      this.selectedFile
     );
+    this.editProfileService.isSubmitted.subscribe((isSubmitted) => {
+      if (isSubmitted) {
+        this.isSubmit = isSubmitted;
+        this.isDisabled = 'disabled';
+        this.selectedFile = null;
+        this.helperTimer(3000);
+      }
+    });
+  }
+  onEdit() {
+    this.isDisabled = null;
+  }
+  helperTimer(time: number) {
+    setTimeout(() => {
+      this.isSubmit = null;
+    }, time);
   }
 }
