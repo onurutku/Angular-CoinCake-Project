@@ -1,5 +1,6 @@
 # Cakecoin https://cakecoin.netlify.app/
 
+gitmoji deneme
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.0.4.
 
 ## Development server
